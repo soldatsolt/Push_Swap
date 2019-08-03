@@ -53,6 +53,8 @@ void	sa(t_push *push)
 	push->start_a->n = tmp;
 }
 
+
+
 void    free_all_stack(t_stack *start)
 {
 	t_stack   *tmp;
@@ -71,6 +73,7 @@ void	free_push(t_push *push)
 {
 	free_all_stack(push->start_a);
 	free_all_stack(push->start_b);
+	free(push);
 }
 
 void	print_stack(t_stack *stack)
@@ -83,6 +86,40 @@ void	print_stack(t_stack *stack)
 	}
 }
 
+void	krasivo_vivod_check(t_push *push)
+{
+	t_stack *tmp_a;
+	t_stack *tmp_b;
+
+	tmp_a = push->start_a;
+	tmp_b = push->start_b;
+	ft_putstr("__A__|__B__\n");
+	while (tmp_a->next || tmp_b->next)
+	{
+		ft_putstr("__");
+		if (tmp_a->n)
+			ft_putnbr(tmp_a->n);
+		else
+			ft_putstr("^");
+		if (tmp_a->n < 10)
+			ft_putstr("__|__");
+		else
+			ft_putstr("_|__");
+		if (tmp_b->n)
+			ft_putnbr(tmp_b->n);
+		else
+			ft_putstr("^");
+				if (tmp_b->n < 10)
+			ft_putstr("__\n");
+		else
+			ft_putstr("_\n");
+		if (tmp_a->next)
+			tmp_a = tmp_a->next;
+		if (tmp_b->next)
+			tmp_b = tmp_b->next;
+	}
+}
+
 int		main(int argc, char **argv)
 {
 	t_push	*push;
@@ -91,7 +128,7 @@ int		main(int argc, char **argv)
 	i = 1;
 	push = create_push();
 
-	printf("Hi, it's Push_Swap\n");
+	ft_putstr("Hi, it's Push_Swap\n");
 	if (argc >= 2)
 	{
 		while (i < argc)
@@ -100,7 +137,7 @@ int		main(int argc, char **argv)
 			i++;
 		}
 	}
-	sa(push);
-	print_stack(push->start_a);
+	krasivo_vivod_check(push);
+	free_push(push);
 	return (0);
 }
