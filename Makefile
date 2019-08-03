@@ -7,8 +7,8 @@ OBJS = $(SRCS:.c=.o)
 LIBFT = ./libft/libft.a
 all: $(NAME)
 
-$(NAME): $(LIBFT)
-	@gcc -I /usr/local/include ./libft/libft.a $(FLAGS) $(SRCS) -L /usr/local/lib -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+$(NAME):
+	@gcc ./libft/libft.a $(SRCS) -g -o $(NAME)
 
 g:
 	@gcc -g $(SRCS) -o $(NAME)
@@ -26,6 +26,7 @@ rerun: re
 
 $(LIBFT):
 	@$(MAKE) -C ./libft re
+	@$(MAKE) -C ./libft clean
 
 git:
 	git add .
