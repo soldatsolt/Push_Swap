@@ -93,7 +93,7 @@ void	free_push(t_push *push)
 
 void	print_stack(t_stack *stack)
 {
-	while (stack->next)
+	while (stack)
 	{
 		ft_putnbr(stack->n);
 		ft_putchar('\n');
@@ -109,28 +109,28 @@ void	krasivo_vivod_check(t_push *push)
 	tmp_a = push->start_a;
 	tmp_b = push->start_b;
 	ft_putstr("__A__|__B__\n");
-	while (tmp_a->next || tmp_b->next)
+	while (tmp_a || tmp_b)
 	{
 		ft_putstr("__");
-		if (tmp_a->n)
+		if (tmp_a)
 			ft_putnbr(tmp_a->n);
 		else
 			ft_putstr("^");
-		if (tmp_a->n < 10)
+		if (tmp_a && tmp_a->n < 10)
 			ft_putstr("__|__");
 		else
 			ft_putstr("_|__");
-		if (tmp_b->n)
+		if (tmp_b)
 			ft_putnbr(tmp_b->n);
 		else
 			ft_putstr("^");
-				if (tmp_b->n < 10)
+		if (tmp_b && tmp_b->n < 10)
 			ft_putstr("__\n");
 		else
 			ft_putstr("_\n");
-		if (tmp_a->next)
+		if (tmp_a)
 			tmp_a = tmp_a->next;
-		if (tmp_b->next)
+		if (tmp_b)
 			tmp_b = tmp_b->next;
 	}
 }
@@ -169,6 +169,20 @@ void	pb(t_push *push)
 	push->start_b = tmp_b;
 }
 
+void	ra(t_push *push)
+{
+	t_stack	*tmp_a;
+
+	if (!(push->start_a->n) || !(push->start_a->next->n))
+		return ;
+	tmp_a = push->start_a;
+	while (tmp_a->next)
+		tmp_a = tmp_a->next;
+	tmp_a->next = push->start_a;
+	push->start_a = push->start_a->next;
+	tmp_a->next->next = NULL;
+}
+
 int		main(int argc, char **argv)
 {
 	t_push	*push;
@@ -186,19 +200,8 @@ int		main(int argc, char **argv)
 			i++;
 		}
 	}
-	put_n_to_b(push, 9);
-	put_n_to_b(push, 53);
-	sa(push);
-	sb(push);
-	ss(push);
-	pa(push);
-	pa(push);
-	pa(push);
-	pb(push);	
-	pb(push);
-	pb(push);
-	pb(push);
-	pb(push);
+	ra(push);
+	put_n_to_b(push, 5);
 	krasivo_vivod_check(push);
 	free_push(push);
 	return (0);
