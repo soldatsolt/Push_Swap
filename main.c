@@ -53,7 +53,22 @@ void	sa(t_push *push)
 	push->start_a->n = tmp;
 }
 
+void	sb(t_push *push)
+{
+	int	tmp;
 
+	if (!(push->start_b->n) || !(push->start_b->next->n))
+		return ;
+	tmp = push->start_b->next->n;
+	push->start_b->next->n = push->start_b->n;
+	push->start_b->n = tmp;
+}
+
+void	ss(t_push *push)
+{
+	sa(push);
+	sb(push);
+}
 
 void    free_all_stack(t_stack *start)
 {
@@ -120,6 +135,40 @@ void	krasivo_vivod_check(t_push *push)
 	}
 }
 
+void	pa(t_push *push)
+{
+	t_stack	*tmp_b;
+	t_stack	*tmp_a;
+
+	if (!push->start_b->n)
+		return ;
+	tmp_b = push->start_b->next;
+	tmp_a = create_stack();
+	tmp_a->n = push->start_b->n;
+	push->start_b->next = NULL;
+	free(push->start_b);
+	push->start_b = tmp_b;
+	tmp_a->next = push->start_a;
+	push->start_a = tmp_a;
+}
+
+void	pb(t_push *push)
+{
+	t_stack	*tmp_a;
+	t_stack	*tmp_b;
+
+	if (!push->start_a->n)
+		return ;
+	tmp_a = push->start_a->next;
+	tmp_b = create_stack();
+	tmp_b->n = push->start_a->n;
+	push->start_a->next = NULL;
+	free(push->start_a);
+	push->start_a = tmp_a;
+	tmp_b->next = push->start_b;
+	push->start_b = tmp_b;
+}
+
 int		main(int argc, char **argv)
 {
 	t_push	*push;
@@ -137,6 +186,19 @@ int		main(int argc, char **argv)
 			i++;
 		}
 	}
+	put_n_to_b(push, 9);
+	put_n_to_b(push, 53);
+	sa(push);
+	sb(push);
+	ss(push);
+	pa(push);
+	pa(push);
+	pa(push);
+	pb(push);	
+	pb(push);
+	pb(push);
+	pb(push);
+	pb(push);
 	krasivo_vivod_check(push);
 	free_push(push);
 	return (0);
