@@ -195,7 +195,7 @@ void	ra(t_push *push)
 {
 	t_stack	*tmp_a;
 
-	if (!(push->start_a->n) || !(push->start_a->next->n))
+	if (!(push->start_a) || !(push->start_a->next))
 		return ;
 	tmp_a = push->start_a;
 	while (tmp_a->next)
@@ -203,6 +203,20 @@ void	ra(t_push *push)
 	tmp_a->next = push->start_a;
 	push->start_a = push->start_a->next;
 	tmp_a->next->next = NULL;
+}
+
+void	rb(t_push *push)
+{
+	t_stack	*tmp_b;
+
+	if (!(push->start_b) || !(push->start_b->next))
+		return ;
+	tmp_b = push->start_b;
+	while (tmp_b->next)
+		tmp_b = tmp_b->next;
+	tmp_b->next = push->start_b;
+	push->start_b = push->start_b->next;
+	tmp_b->next->next = NULL;
 }
 
 int		main(int argc, char **argv)
@@ -224,6 +238,7 @@ int		main(int argc, char **argv)
 	}
 	put_n_to_b(push, 5);
 	ra(push);
+	rb(push);
 	krasivo_vivod_check(push);
 	free_push(push);
 	return (0);
