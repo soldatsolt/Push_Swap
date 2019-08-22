@@ -12,22 +12,44 @@ t_stack	*create_stack(void)
 
 void    put_n_to_a(t_push *push, int n)
 {
-	t_stack   *tmp;
+	static int	k = 0;
 
-	tmp = push->a;
-	push->a = create_stack();
-	tmp->n = n;
-	tmp->next = push->a;
+	if (k)
+	{
+		push->a->next = create_stack();
+		push->a = push->a->next;
+		push->a->n = n;
+		push->a->next = NULL;
+	}
+	else
+	{
+		push->a = create_stack();
+		push->start_a = push->a;
+		push->a->n = n;
+		push->a->next = NULL;
+		k++;
+	}
 }
 
 void    put_n_to_b(t_push *push, int n)
 {
-	t_stack   *tmp;
+	static int	k = 0;
 
-	tmp = push->b;
-	push->b = create_stack();
-	tmp->n = n;
-	tmp->next = push->b;
+	if (k)
+	{
+		push->b->next = create_stack();
+		push->b = push->b->next;
+		push->b->n = n;
+		push->b->next = NULL;
+	}
+	else
+	{
+		push->b = create_stack();
+		push->start_b = push->b;
+		push->b->n = n;
+		push->b->next = NULL;
+		k++;
+	}
 }
 
 t_push	*create_push(void)
@@ -35,10 +57,10 @@ t_push	*create_push(void)
 	t_push	*push;
 
 	push = (t_push *)malloc(sizeof(t_push));
-	push->a = create_stack();
-	push->b = create_stack();
-	push->start_a = push->a;
-	push->start_b = push->b;
+	push->a = NULL;
+	push->b = NULL;
+	push->start_a = NULL;
+	push->start_b = NULL;
 	return (push);
 }
 
@@ -200,8 +222,8 @@ int		main(int argc, char **argv)
 			i++;
 		}
 	}
-	ra(push);
 	put_n_to_b(push, 5);
+	ra(push);
 	krasivo_vivod_check(push);
 	free_push(push);
 	return (0);
