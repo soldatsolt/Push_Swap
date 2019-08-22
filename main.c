@@ -356,7 +356,7 @@ void	checker(t_push *push) //FIXME: check for duplicates too
 	if (push->b || push->start_b)
 	{
 		write(1, "KO\n", 3);
-		free(push);
+		free_push(push);
 		exit(0);
 	}
 	while (tmp->next)
@@ -364,7 +364,7 @@ void	checker(t_push *push) //FIXME: check for duplicates too
 		if (tmp->n > tmp->next->n)
 		{
 			write(1, "KO\n", 3);
-			free(push);
+			free_push(push);
 			exit(0);
 		}
 		tmp = tmp->next;
@@ -372,6 +372,31 @@ void	checker(t_push *push) //FIXME: check for duplicates too
 	write(1, "OK\n", 3);
 	free_push(push);
 	exit(0);
+}
+
+void	check_for_duplicates(t_push *push)
+{
+	int	n;
+	t_stack	*tmp;
+	t_stack	*tmp1;
+
+	tmp = push->start_a;
+	while (tmp->next)
+	{
+		n = tmp->n;
+		tmp1 = tmp->next;
+		while (tmp1)
+		{
+			if (n == tmp1->n)
+			{
+				write(2, "Error\n", 6);
+				free_push(push);
+				exit(0);
+			}
+			tmp1 = tmp1->next;
+		}
+		tmp = tmp->next;
+	}
 }
 
 int		main(int argc, char **argv)
@@ -390,6 +415,7 @@ int		main(int argc, char **argv)
 			i++;	//TODO: разобрал случаи вроде "+23" "+32+34" "-12-64" etc.
 		}			//но будет неплохо проверить все случаи
 	}
+	check_for_duplicates(push);
 	while (get_next_line(0, &str) > 0)
 	{
 		checker_stdin(push, str);
