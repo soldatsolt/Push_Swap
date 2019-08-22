@@ -1,5 +1,75 @@
 #include "push_swap.h"
 
+void    free_all_stack(t_stack *start)
+{
+	t_stack   *tmp;
+	t_stack   *store;
+
+	tmp = start;
+	while (tmp)
+	{
+		store = tmp->next;
+		free(tmp);
+		tmp = store;
+	}
+}
+
+void	free_push(t_push *push)
+{
+	free_all_stack(push->start_a);
+	free_all_stack(push->start_b);
+	free(push);
+}
+
+void	check_for_letters(t_push *push, const char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if ((str[i] == '-' || str[i] == '+') && i != 0)
+		{
+			write(2, "Error\n", 6);
+			free_push(push);
+			exit(0);
+		}
+		if (!(str[i] >= '0' || str[i] <= '9' || str[i] == '-' || str[i] == '+'))
+		{
+			write(2, "Error\n", 6);
+			free_push(push);
+			exit(0);
+		}
+		i++;
+	}
+}
+
+int		ft_atoi_for_checker(t_push *push, const char *str)
+{
+	int		res;
+	int		z;
+
+	check_for_letters(push, str);
+	res = 0;
+	z = 1;
+	while (*str == ' ' || *str == '\t' || *str == '\n' || *str == '\r' ||\
+	*str == '\v' || *str == '\f')
+		str++;
+	if (*str == '+' || *str == '-')
+	{
+		if (*str == '-')
+			z = -1;
+		str++;
+	}
+	while (*str >= '0' && *str <= '9')
+	{
+		res = res * 10;
+		res = res + (int)(*str - '0');
+		str++;
+	}
+	return (res * z);
+}
+
 t_stack	*create_stack(void)
 {
 	t_stack	*stack;
@@ -90,27 +160,6 @@ void	ss(t_push *push)
 {
 	sa(push);
 	sb(push);
-}
-
-void    free_all_stack(t_stack *start)
-{
-	t_stack   *tmp;
-	t_stack   *store;
-
-	tmp = start;
-	while (tmp)
-	{
-		store = tmp->next;
-		free(tmp);
-		tmp = store;
-	}
-}
-
-void	free_push(t_push *push)
-{
-	free_all_stack(push->start_a);
-	free_all_stack(push->start_b);
-	free(push);
 }
 
 void	print_stack(t_stack *stack)
@@ -296,7 +345,7 @@ void	checker_stdin(t_push *push, char *str)
 	}
 }
 
-void	checker(t_push *push)
+void	checker(t_push *push) //FIXME: check for duplicates too
 {
 	t_stack	*tmp;
 
@@ -330,15 +379,13 @@ int		main(int argc, char **argv)
 
 	i = 1;
 	push = create_push();
-
-	ft_putstr("Hi, it's Push_Swap\n");
 	if (argc >= 2)
 	{
 		while (i < argc)
 		{
-			put_n_to_a(push, ft_atoi(argv[i]));
-			i++;
-		}
+			put_n_to_a(push, ft_atoi_for_checker(push, argv[i]));
+			i++;	//TODO: разобрал случаи вроде "+23" "+32+34" "-12-64" etc.
+		}			//но будет неплохо проверить все случаи
 	}
 	while (get_next_line(0, &str) > 0)
 	{
