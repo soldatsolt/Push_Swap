@@ -1,4 +1,4 @@
-#include "Push_Swap.h"
+#include "push_swap.h"
 
 t_stack	*create_stack(void)
 {
@@ -267,6 +267,7 @@ int		main(int argc, char **argv)
 {
 	t_push	*push;
 	int 	i;
+	char	*str;
 
 	i = 1;
 	push = create_push();
@@ -280,20 +281,11 @@ int		main(int argc, char **argv)
 			i++;
 		}
 	}
-	ft_putstr("BEFORE RRR\n");
-	krasivo_vivod_check(push);
-	sa(push);
-	pb(push);
-	pb(push);
-	pb(push);
-	rr(push);
-	rrr(push);
-	sa(push);
-	pa(push);
-	pa(push);
-	pa(push);
-	ft_putstr("AFTER RRR\n");
-	krasivo_vivod_check(push);
+	while (get_next_line(0, &str) > 0)
+	{
+		ft_putstr(str);
+		ft_putstr("\n");
+	}
 	free_push(push);
 	return (0);
 }
