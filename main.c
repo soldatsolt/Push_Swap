@@ -263,6 +263,65 @@ void	rrr(t_push *push)
 	rrb(push);
 }
 
+void	checker_stdin(t_push *push, char *str)
+{
+	if (!ft_strcmp(str, "sa"))
+		sa(push);
+	else if (!ft_strcmp(str, "sb"))
+		sb(push);
+	else if (!ft_strcmp(str, "ss"))
+		ss(push);
+	else if (!ft_strcmp(str, "pa"))
+		pa(push);
+	else if (!ft_strcmp(str, "pb"))
+		pb(push);
+	else if (!ft_strcmp(str, "ra"))
+		ra(push);
+	else if (!ft_strcmp(str, "rb"))
+		rb(push);
+	else if (!ft_strcmp(str, "rr"))
+		rr(push);
+	else if (!ft_strcmp(str, "rra"))
+		rra(push);
+	else if (!ft_strcmp(str, "rrb"))
+		rrb(push);
+	else if (!ft_strcmp(str, "rrr"))
+		rrr(push);
+	else
+	{
+		write(2, "Error\n", 6);
+		free_push(push);
+		free(str);
+		exit(0);
+	}
+}
+
+void	checker(t_push *push)
+{
+	t_stack	*tmp;
+
+	tmp  = push->start_a;
+	if (push->b || push->start_b)
+	{
+		write(1, "KO\n", 3);
+		free(push);
+		exit(0);
+	}
+	while (tmp->next)
+	{
+		if (tmp->n > tmp->next->n)
+		{
+			write(1, "KO\n", 3);
+			free(push);
+			exit(0);
+		}
+		tmp = tmp->next;
+	}
+	write(1, "OK\n", 3);
+	free_push(push);
+	exit(0);
+}
+
 int		main(int argc, char **argv)
 {
 	t_push	*push;
@@ -283,9 +342,11 @@ int		main(int argc, char **argv)
 	}
 	while (get_next_line(0, &str) > 0)
 	{
-		ft_putstr(str);
-		ft_putstr("\n");
+		checker_stdin(push, str);
+		free(str);
 	}
+	checker(push);
+	krasivo_vivod_check(push);
 	free_push(push);
 	return (0);
 }
