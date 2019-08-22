@@ -1,9 +1,9 @@
 #include "push_swap.h"
 
-void    free_all_stack(t_stack *start)
+void	free_all_stack(t_stack *start)
 {
-	t_stack   *tmp;
-	t_stack   *store;
+	t_stack		*tmp;
+	t_stack		*store;
 
 	tmp = start;
 	while (tmp)
@@ -80,7 +80,7 @@ t_stack	*create_stack(void)
 	return (stack);
 }
 
-void    put_n_to_a(t_push *push, int n)
+void	put_n_to_a(t_push *push, int n)
 {
 	static int	k = 0;
 
@@ -101,7 +101,7 @@ void    put_n_to_a(t_push *push, int n)
 	}
 }
 
-void    put_n_to_b(t_push *push, int n)
+void	put_n_to_b(t_push *push, int n)
 {
 	static int	k = 0;
 
@@ -312,6 +312,14 @@ void	rrr(t_push *push)
 	rrb(push);
 }
 
+void	error_checker_stdin(t_push *push, char *str)
+{
+	write(2, "Error\n", 6);
+	free_push(push);
+	free(str);
+	exit(0);
+}
+
 void	checker_stdin(t_push *push, char *str)
 {
 	if (!ft_strcmp(str, "sa"))
@@ -337,19 +345,14 @@ void	checker_stdin(t_push *push, char *str)
 	else if (!ft_strcmp(str, "rrr"))
 		rrr(push);
 	else
-	{
-		write(2, "Error\n", 6);
-		free_push(push);
-		free(str);
-		exit(0);
-	}
+		error_checker_stdin(push, str);
 }
 
 void	checker(t_push *push) //FIXME: check for duplicates too
 {
 	t_stack	*tmp;
 
-	tmp  = push->start_a;
+	tmp = push->start_a;
 	if (push->b || push->start_b)
 	{
 		write(1, "KO\n", 3);
@@ -374,7 +377,7 @@ void	checker(t_push *push) //FIXME: check for duplicates too
 int		main(int argc, char **argv)
 {
 	t_push	*push;
-	int 	i;
+	int		i;
 	char	*str;
 
 	i = 1;
