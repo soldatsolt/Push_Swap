@@ -1,4 +1,6 @@
-NAME = push_swap
+NAME1 = checker
+NAME2 = push_swap
+NAME = $(NAME1) $(NAME2)
 MAKE = make
 override G += 
 FLAGS = -Wall -Wextra -Werror
@@ -8,21 +10,21 @@ LIBFT = ./libft/libft.a
 all: $(NAME)
 
 $(NAME):
-	@gcc ./libft/libft.a $(SRCS) -g -o $(NAME)
+	@gcc ./libft/libft.a $(SRCS) -g -o $(NAME1)
 
 g:
-	@gcc -g $(SRCS) -o $(NAME)
+	@gcc -g $(SRCS) -o $(NAME1)
 
 clean:
 	@$(MAKE) -C ./libft clean
 
 fclean: clean
-	@rm -f $(NAME)
+	@rm -f $(NAME1)
 
 re: fclean all
 
 rerun: re
-	@./$(NAME)
+	@./$(NAME1)
 
 $(LIBFT):
 	@$(MAKE) -C ./libft re

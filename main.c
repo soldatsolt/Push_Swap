@@ -28,13 +28,13 @@ void	check_for_letters(t_push *push, const char *str)
 	i = 0;
 	while (str[i])
 	{
-		if ((str[i] == '-' || str[i] == '+') && i != 0)
+		if ((str[i] == '-' || str[i] == '+') && ((i != 0) || !str[i + 1]))// TODO: TEST ALL CASES CAREFULLY
 		{
 			write(2, "Error\n", 6);
 			free_push(push);
 			exit(0);
 		}
-		if (!(str[i] >= '0' || str[i] <= '9' || str[i] == '-' || str[i] == '+'))
+		if (!(str[i] >= '0' && str[i] <= '9') && str[i] != '-' && str[i] != '+')
 		{
 			write(2, "Error\n", 6);
 			free_push(push);
