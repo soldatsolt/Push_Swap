@@ -57,7 +57,6 @@ int		main(int argc, char **argv)
 		free(str);
 	}
 	checker(push);
-	krasivo_vivod_check(push);
 	free_push(push);
 	return (0);
 }

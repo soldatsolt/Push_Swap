@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-void	error_checker_stdin(t_push *push, char *str)
+void	error_checker_stder(t_push *push, char *str)
 {
 	write(2, "Error\n", 6);
 	free_push(push);
@@ -33,42 +33,51 @@ void	checker_stdin(t_push *push, char *str)
 	else if (!ft_strcmp(str, "rrr"))
 		rrr(push);
 	else
-		error_checker_stdin(push, str);
+		error_checker_stder(push, str);
 }
 
-void	checker(t_push *push)
+void	check_ok(t_push *push)
 {
-	t_stack	*tmp;
-
-	tmp = push->start_a;
-	if (push->b || push->start_b)
-	{
-		write(1, "KO\n", 3);
-		free_push(push);
-		exit(0);
-	}
-	while (tmp->next)
-	{
-		if (tmp->n > tmp->next->n)
-		{
-			write(1, "KO\n", 3);
-			free_push(push);
-			exit(0);
-		}
-		tmp = tmp->next;
-	}
 	write(1, "OK\n", 3);
 	free_push(push);
 	exit(0);
 }
 
+void	check_ko(t_push *push)
+{
+	write(1, "KO\n", 3);
+	free_push(push);
+	exit(0);
+}
+void	checker(t_push *push)
+{
+	t_stack	*tmp;
+
+	if (push->start_a && !push->start_b)
+		tmp = push->start_a;
+	else
+		check_ok(push);	
+	if (push->b || push->start_b)
+		check_ko(push);
+	while (tmp->next)
+	{
+		if (tmp->n > tmp->next->n)
+			check_ko(push);
+		tmp = tmp->next;
+	}
+	check_ok(push);	
+}
+
 void	check_for_duplicates(t_push *push)
 {
-	int	n;
+	int		n;
 	t_stack	*tmp;
 	t_stack	*tmp1;
 
-	tmp = push->start_a;
+	if (push->start_a)
+		tmp = push->start_a;
+	else
+		return ;	
 	while (tmp->next)
 	{
 		n = tmp->n;
@@ -134,6 +143,6 @@ int		ft_atoi_for_checker(t_push *push, char *str)
 		str++;
 	}
 	if ((res * z) > INT_MAX || (res * z) < INT_MIN)
-		error_checker_stdin(push, ft_strdup(str));
+		error_checker_stder(push, ft_strdup(str));
 	return ((int)(res * z));
 }

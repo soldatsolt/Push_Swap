@@ -38,7 +38,6 @@ int					ft_atoi_for_checker(t_push *push, char *str);
 void				check_for_duplicates(t_push *push);
 void				checker(t_push *push);
 void				checker_stdin(t_push *push, char *str);
-void				error_checker_stdin(t_push *push, char *str);
-
+void				error_checker_stder(t_push *push, char *str);
 
 #endif

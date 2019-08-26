@@ -4,7 +4,7 @@ void	sa(t_push *push)
 {
 	int	tmp;
 
-	if (!(push->start_a->n) || !(push->start_a->next->n))
+	if (!(push->start_a) || !(push->start_a->next))
 		return ;
 	tmp = push->start_a->next->n;
 	push->start_a->next->n = push->start_a->n;
@@ -15,7 +15,7 @@ void	sb(t_push *push)
 {
 	int	tmp;
 
-	if (!(push->start_b->n) || !(push->start_b->next->n))
+	if (!(push->start_b) || !(push->start_b->next))
 		return ;
 	tmp = push->start_b->next->n;
 	push->start_b->next->n = push->start_b->n;
