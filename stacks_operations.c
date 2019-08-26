@@ -84,3 +84,13 @@ t_push	*create_push(void)
 	push->start_b = NULL;
 	return (push);
 }
+
+void	print_stack(t_stack *stack)
+{
+	while (stack)
+	{
+		ft_putnbr(stack->n);
+		ft_putchar('\n');
+		stack = stack->next;
+	}
+}
