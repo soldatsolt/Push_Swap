@@ -4,7 +4,7 @@ NAME = $(NAME1) $(NAME2)
 MAKE = make
 override G += 
 FLAGS = -Wall -Wextra -Werror
-SRCS = main.c
+SRCS = main.c stacks_operations.c operations.c
 OBJS = $(SRCS:.c=.o)
 LIBFT = ./libft/libft.a
 all: $(NAME)
