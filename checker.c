@@ -49,6 +49,7 @@ void	check_ko(t_push *push)
 	free_push(push);
 	exit(0);
 }
+
 void	checker(t_push *push)
 {
 	t_stack	*tmp;

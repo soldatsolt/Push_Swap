@@ -33,7 +33,7 @@ void	pa(t_push *push)
 	t_stack	*tmp_b;
 	t_stack	*tmp_a;
 
-	if (!push->start_b->n)
+	if (!push->start_b)
 		return ;
 	tmp_b = push->start_b->next;
 	tmp_a = create_stack();
@@ -50,7 +50,7 @@ void	pb(t_push *push)
 	t_stack	*tmp_a;
 	t_stack	*tmp_b;
 
-	if (!push->start_a->n)
+	if (!push->start_a)
 		return ;
 	tmp_a = push->start_a->next;
 	tmp_b = create_stack();

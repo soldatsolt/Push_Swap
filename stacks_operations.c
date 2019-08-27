@@ -94,3 +94,37 @@ void	print_stack(t_stack *stack)
 		stack = stack->next;
 	}
 }
+
+void	krasivo_vivod_check(t_push *push)
+{
+	t_stack *tmp_a;
+	t_stack *tmp_b;
+
+	tmp_a = push->start_a;
+	tmp_b = push->start_b;
+	ft_putstr("__A__|__B__\n");
+	while (tmp_a || tmp_b)
+	{
+		ft_putstr("__");
+		if (tmp_a)
+			ft_putnbr(tmp_a->n);
+		else
+			ft_putstr("^");
+		if (tmp_a && tmp_a->n < 10)
+			ft_putstr("__|__");
+		else
+			ft_putstr("_|__");
+		if (tmp_b)
+			ft_putnbr(tmp_b->n);
+		else
+			ft_putstr("^");
+		if (tmp_b && tmp_b->n < 10)
+			ft_putstr("__\n");
+		else
+			ft_putstr("_\n");
+		if (tmp_a)
+			tmp_a = tmp_a->next;
+		if (tmp_b)
+			tmp_b = tmp_b->next;
+	}
+}
