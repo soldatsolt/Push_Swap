@@ -84,7 +84,7 @@ void	algos1(t_push *push)
 
 
 
-
+  
 
 
 
@@ -102,8 +102,46 @@ void	algos1(t_push *push)
 	// 	i++;
 	// 	ft_putstr("______________\n");
 	// }
-	// krasivo_vivod_check(push);
+	krasivo_vivod_check(push);
 
+}
+
+/*
+**
+**
+**
+*/
+
+void	make_norm_stack(t_push *push)
+{
+	int		nomer;
+	t_stack	*tmp;
+	t_stack	*min_tmp;
+	int		kol_vo_elementov_v_stacke_a;
+
+	nomer = 0;
+	kol_vo_elementov_v_stacke_a = kol_vo_elementov_v_stacke(push->start_a);
+	if (push->start_a)
+		tmp = push->start_a;
+	else
+		return ;
+	while (nomer < kol_vo_elementov_v_stacke_a)
+	{
+		tmp = push->start_a;
+		while (tmp->f)
+			tmp = tmp->next;
+		min_tmp = tmp;
+		tmp = push->start_a;
+		while (tmp)
+		{
+			if (min_tmp->n > tmp->n && !tmp->f)
+				min_tmp = tmp;
+			tmp = tmp->next;
+		}
+		min_tmp->n = nomer;
+		min_tmp->f = 1;
+		nomer++;
+	}
 }
 
 int		main(int argc, char **argv)
@@ -122,7 +160,8 @@ int		main(int argc, char **argv)
 		}
 	}
 	check_for_duplicates(push);
-	algos1(push);
-
+	make_norm_stack(push);
+	// algos1(push);
+	krasivo_vivod_check(push);
 	return (0);
 }

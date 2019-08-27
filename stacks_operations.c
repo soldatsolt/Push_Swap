@@ -21,6 +21,7 @@ t_stack	*create_stack(void)
 	stack = (t_stack *)malloc(sizeof(t_stack));
 	stack->next = NULL;
 	stack->n = 0;
+	stack->f = 0;
 	return (stack);
 }
 
