@@ -6,7 +6,7 @@
 /*   By: kmills <kmills@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/19 20:10:53 by kmills            #+#    #+#             */
-/*   Updated: 2019/04/13 15:23:24 by kmills           ###   ########.fr       */
+/*   Updated: 2019/08/27 23:56:30 by kmills           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,5 +132,6 @@ char		**ft_strsplit(char const *ss, char c)
 	}
 	str = fillstr(str, s, c);
 	free(lengs);
+	free(s);
 	return (str);
 }

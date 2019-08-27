@@ -34,11 +34,11 @@ void				rra(t_push *push);
 void				rrb(t_push *push);
 void				rrr(t_push *push);
 void				print_stack(t_stack *stack);	
-int					ft_atoi_for_checker(t_push *push, char *str);
 void				check_for_duplicates(t_push *push);
 void				checker(t_push *push);
 void				checker_stdin(t_push *push, char *str);
 void				error_checker_stder(t_push *push, char *str);
 void				krasivo_vivod_check(t_push *push);
-
+void				start_atoi_for_checker(t_push *push, char *str);
+int					ft_atoi_for_checker(char **all_str, t_push *push, char *str);
 #endif

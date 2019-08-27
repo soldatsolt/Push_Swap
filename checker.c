@@ -1,10 +1,32 @@
 #include "push_swap.h"
 
+void	free_all_str(char **all_str)
+{
+	int i;
+
+	i = 0;
+	while (all_str[i])
+	{
+		free(all_str[i]);
+		i++;
+	}
+	free(all_str);
+}
+
 void	error_checker_stder(t_push *push, char *str)
 {
 	write(2, "Error\n", 6);
 	free_push(push);
 	free(str);
+	exit(0);
+}
+
+void	error_checker_stder1(char **all_str, t_push *push, char *str)
+{
+	write(2, "Error\n", 6);
+	free_push(push);
+	free(str);
+	free_all_str(all_str);
 	exit(0);
 }
 
@@ -97,7 +119,7 @@ void	check_for_duplicates(t_push *push)
 	}
 }
 
-void	check_for_letters(t_push *push, const char *str)
+void	check_for_letters(char **all_str, t_push *push, const char *str)
 {
 	int	i;
 
@@ -108,24 +130,26 @@ void	check_for_letters(t_push *push, const char *str)
 		{
 			write(2, "Error\n", 6);
 			free_push(push);
+			free_all_str(all_str);
 			exit(0);
 		}
 		if (!(str[i] >= '0' && str[i] <= '9') && str[i] != '-' && str[i] != '+')
 		{
 			write(2, "Error\n", 6);
 			free_push(push);
+			free_all_str(all_str);
 			exit(0);
 		}
 		i++;
 	}
 }
 
-int		ft_atoi_for_checker(t_push *push, char *str)
+int		ft_atoi_for_checker(char **all_str, t_push *push, char *str)
 {
 	long	res;
 	long	z;
 
-	check_for_letters(push, str);
+	check_for_letters(all_str, push, str);
 	res = 0;
 	z = 1;
 	while (*str == ' ' || *str == '\t' || *str == '\n' || *str == '\r' ||\
@@ -144,6 +168,21 @@ int		ft_atoi_for_checker(t_push *push, char *str)
 		str++;
 	}
 	if ((res * z) > INT_MAX || (res * z) < INT_MIN)
-		error_checker_stder(push, ft_strdup(str));
+		error_checker_stder1(all_str, push, ft_strdup(str));
 	return ((int)(res * z));
+}
+
+void	start_atoi_for_checker(t_push *push, char *str)
+{
+	char	**all_str;
+	int		i;
+
+	i = 0;
+	all_str = ft_strsplit(str, ' ');
+	while (all_str[i])
+	{
+		put_n_to_a(push, ft_atoi_for_checker(all_str, push, all_str[i]));
+		i++;
+	}
+	free_all_str(all_str);
 }

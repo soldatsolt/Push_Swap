@@ -102,7 +102,7 @@ void	algos1(t_push *push)
 	// 	i++;
 	// 	ft_putstr("______________\n");
 	// }
-	krasivo_vivod_check(push);
+	// krasivo_vivod_check(push);
 
 }
 
@@ -117,7 +117,7 @@ int		main(int argc, char **argv)
 	{
 		while (i < argc)
 		{
-			put_n_to_a(push, ft_atoi_for_checker(push, argv[i]));
+			start_atoi_for_checker(push, argv[i]);
 			i++;
 		}
 	}
