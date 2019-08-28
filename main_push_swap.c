@@ -99,6 +99,13 @@ void	algos2(t_push *push)
 	{
 		while (push->start_a->n != min_element)
 		{
+			if (push->start_a->n - push->start_a->next->n == 1)
+			{
+				sa(push);
+				ft_putstr("sa\n"); // весь этот иф очень спорный
+				ra(push);
+				ft_putstr("ra\n");
+			}
 			ra(push);
 			ft_putstr("ra\n");
 		}

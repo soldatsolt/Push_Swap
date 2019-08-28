@@ -1,19 +1,161 @@
-#A STACK WITH 100 RANDOM NUMBERS
+#!/bin/bash
 
-ARG100="17 9 93 80 99 2 5 51 84 4 57 48 14 29 55 35 74 21 94 60 68 63 1 92 23 82 12 67 69 98 52 19 83 97 78 39 75 100 25 24 8 7 41 11 86 44 36 72 18 73 16 64 47 90 65 87 77 59 61 45 30 53 54 66 76 28 37 95 70 91 27 6 50 43 81 3 46 13 31 89 88 96 38 62 33 10 15 79 20 42 40 85 26 34 71 49 32 22 58 56";
+echo -e '\033[0mTesting validity a Hundred Times in a range from 0 to 4'
+ERR=0
+for i in range {1..99}
+	do 
+		ARG=`ruby -e "puts (0..4).to_a.shuffle.join(' ')"`
+		RET=`./push_swap $ARG | ./checker $ARG`
+		if [ "$RET" != "OK" ];
+			then
+			((ERR++))
+			echo -en '\033[0;31m▓\033[0;0m'
+		else
+			echo -en '\033[0;32m▓\033[0;0m'
+		fi
+done
 
-#A STACK WITH  10 RANDOM NUMBERS.
+if [ $ERR -eq 0 ];
+	then
+	echo -e '\033[0;32m Success'
+else
+	echo -e "\033[0;31m Fail $ERR / 100"
+fi
 
-ARG10="33 4 5 9 6 2 1 99 40 92"
 
-#RETURNS COUNT OF OPERATIONS IT TOOK TO SORT DEPENDING ON THE ARG.
+echo -e '\033[0mTesting length a Hundred Times in a range from 0 to 4 '
+ERR=0
+for i in range {1..99}
+	do 
+		ARG=`ruby -e "puts (0..4).to_a.shuffle.join(' ')"`
+		RET=`./push_swap $ARG | wc -l`
+		if [ $RET -gt 12 ];
+			then
+			((ERR++))
+			echo -en '\033[0;31m▓\033[0;0m'
+		else
+			echo -en '\033[0;32m▓\033[0;0m'
+		fi
+done
 
-./push_swap $ARG100 | wc -l
+if [ $ERR -eq 0 ];
+	then
+	echo -e '\033[0;32m Success'
+else
+	echo -e "\033[0;31m Fail $ERR / 100"
+fi
 
-#TAKES OPERATIONS PRODUCED BY PUSH_SWAP TO CHECKER AND DISPLAYS OK IF SORTED & KO IF NOT.
 
-./push_swap $ARG100 | ./checker $ARG100
+echo -e '\033[0mTesting a Hundred Times in a range from -50 to 49'
+ERR=0
+for i in range {1..99}
+	do 
+		ARG=`ruby -e "puts (-50..49).to_a.shuffle.join(' ')"`
+		RET=`./push_swap $ARG | ./checker $ARG`
+		if [ "$RET" != "OK" ];
+			then
+			((ERR++))
+			echo -en '\033[0;31m▓\033[0;0m'
+		else
+			echo -en '\033[0;32m▓\033[0;0m'
+		fi
+done
 
-#"I WROTE A STUPID ALGO IT WORKS BUT NOT EFFICIENT" - Tshilidzi Tshivhula
+if [ $ERR -eq 0 ];
+	then
+	echo -e '\033[0;32m Success'
+else
+	echo -e "\033[0;31m Fail $ERR / 100"
+fi
 
-#DON'T BE STUPID USE THE CORRECT STACK WHEN TESTING TO AVOID UNEXPECTED BEHAVIOUR
+
+echo -e '\033[0mTesting a Hundred Times in a range from -99 to 0'
+ERR=0
+for i in range {1..99}
+	do 
+		ARG=`ruby -e "puts (-99..0).to_a.shuffle.join(' ')"`
+		RET=`./push_swap $ARG | ./checker $ARG`
+		if [ "$RET" != "OK" ];
+			then
+			((ERR++))
+			echo -en '\033[0;31m▓\033[0;0m'
+		else
+			echo -en '\033[0;32m▓\033[0;0m'
+		fi
+done
+
+if [ $ERR -eq 0 ];
+	then
+	echo -e '\033[0;32m Success'
+else
+	echo -e "\033[0;31m Fail $ERR / 100"
+fi
+
+echo -e '\033[0mTesting a Hundred Times in a range from 0 to 99'
+ERR=0
+for i in range {1..99}
+	do 
+		ARG=`ruby -e "puts (0..99).to_a.shuffle.join(' ')"`
+		RET=`./push_swap $ARG | ./checker $ARG`
+		if [ "$RET" != "OK" ];
+			then
+			((ERR++))
+			echo -en '\033[0;31m▓\033[0;0m'
+		else
+			echo -en '\033[0;32m▓\033[0;0m'
+		fi
+done
+
+if [ $ERR -eq 0 ];
+	then
+	echo -e '\033[0;32m Success'
+else
+	echo -e "\033[0;31m Fail $ERR / 100"
+fi
+
+
+echo -e '\033[0mTesting a Hundred Times in a range from 0 to 499'
+ERR=0
+for i in range {1..99}
+	do 
+		ARG=`ruby -e "puts (0..499).to_a.shuffle.join(' ')"`
+		RET=`./push_swap $ARG | ./checker $ARG`
+		if [ "$RET" != "OK" ];
+			then
+			((ERR++))
+			echo -en '\033[0;31m▓\033[0;0m'
+		else
+			echo -en '\033[0;32m▓\033[0;0m'
+		fi
+done
+
+if [ $ERR -eq 0 ];
+	then
+	echo -e '\033[0;32m Success'
+else
+	echo -e "\033[0;31m Fail $ERR / 100"
+fi
+
+if [ -e "./res" ]
+	then
+	echo "\033[0merasing res file"
+	rm res
+fi
+
+echo -e '\033[0mGetting an average in a range from 0 to 99'
+ERR=0
+for i in range {1..99}
+	do 
+		ARG=`ruby -e "puts (0..99).to_a.shuffle.join(' ')"`
+		RET=`./push_swap $ARG | wc -l >> res`
+done
+
+
+rm res
+echo -e '\033[0mGetting an average in a range from 0 to 499'
+ERR=0
+for i in range {1..99}
+	do 
+		ARG=`ruby -e "puts (0..499).to_a.shuffle.join(' ')"`
+		RET=`./push_swap $ARG | wc -l >> res`
+done
