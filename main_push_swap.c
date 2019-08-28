@@ -80,30 +80,32 @@ void	algos1(t_push *push)
 		}
 	}
 	pa_n_times(push, kol_vo_elementov_v_stacke(push->start_b));
+}
 
+void	algos2(t_push *push)
+{
+	t_stack	*tmp;
+	int		n;
+	int		max_element;
+	int		min_element;
 
-
-
-  
-
-
-
-
-	// while (i < kol_vo_elementov)
-	// {
-	// 	krasivo_vivod_check(push);
-	// 	if (push->start_a->n > push->start_a->next->n)
-	// 	{
-	// 		sa(push);
-	// 	}
-	// 	ft_putstr("______________\n");
-	// 	krasivo_vivod_check(push);
-	// 	ra(push);
-	// 	i++;
-	// 	ft_putstr("______________\n");
-	// }
-	krasivo_vivod_check(push);
-
+	min_element = 0;
+	if (push->start_a)
+		tmp = push->start_a;
+	else
+		return ;
+	max_element = kol_vo_elementov_v_stacke(push->start_a) - 1;
+	while (min_element < max_element)
+	{
+		while (push->start_a->n != min_element)
+		{
+			ra(push);
+			ft_putstr("ra\n");
+		}
+		pb_n_times(push, 1);
+		min_element++;
+	}
+	pa_n_times(push, kol_vo_elementov_v_stacke(push->start_b));
 }
 
 /*
@@ -161,7 +163,7 @@ int		main(int argc, char **argv)
 	}
 	check_for_duplicates(push);
 	make_norm_stack(push);
-	// algos1(push);
-	krasivo_vivod_check(push);
+	algos2(push);
+	// krasivo_vivod_check(push);
 	return (0);
 }
