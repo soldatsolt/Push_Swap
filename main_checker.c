@@ -21,7 +21,9 @@ int		main(int argc, char **argv)
 	{
 		checker_stdin(push, str);
 		free(str);
+		str = NULL;
 	}
+	// checker_stdin(push, ft_strdup("ss"));
 	checker(push);
 	free_push(push);
 	return (0);

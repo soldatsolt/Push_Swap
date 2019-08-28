@@ -6,13 +6,13 @@
 /*   By: kmills <kmills@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/20 20:27:38 by kmills            #+#    #+#             */
-/*   Updated: 2019/07/20 03:55:54 by kmills           ###   ########.fr       */
+/*   Updated: 2019/08/28 08:09:03 by kmills           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
-# define BUFF_SIZE 1024
+# define BUFF_SIZE 4096
 # include <stdlib.h>
 # include <unistd.h>
 # include <string.h>

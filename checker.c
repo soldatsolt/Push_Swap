@@ -3,20 +3,30 @@
 void	free_all_str(char **all_str)
 {
 	int i;
+	int	j;
 
+	j = 0;
 	i = 0;
 	while (all_str[i])
 	{
+		while (all_str[i][j])
+		{
+			all_str[i][j] = '\0'; // Очень костыльный метод избежать
+			j++;	// баг. 28.08.19 09:39
+		}
+		j = 0;
 		free(all_str[i]);
+		all_str[i] = NULL;
 		i++;
 	}
 	free(all_str);
+	all_str = NULL;
 }
 
 void	error_checker_stder(t_push *push, char *str)
 {
 	write(2, "Error\n", 6);
-	free_push(push);
+	free_push(push); // ОШИБКА ЗАХОДИТ СЮДА
 	free(str);
 	exit(0);
 }
@@ -55,7 +65,7 @@ void	checker_stdin(t_push *push, char *str)
 	else if (!ft_strcmp(str, "rrr"))
 		rrr(push);
 	else
-		error_checker_stder(push, str);
+		error_checker_stder(push, str); // ОТСЮДА (ВВЕРХ СМОТРИ)
 }
 
 void	check_ok(t_push *push)
