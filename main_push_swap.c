@@ -69,6 +69,37 @@ void	algos2(t_push *push)
 	pa_n_times(push, kol_vo_elementov_v_stacke(push->start_b));
 }
 
+void	algos_for_2_elems(t_push *push)
+{
+	if (is_push_sorted(push))
+		return ;
+	else
+	{
+		sa(push);
+		ft_putstr("sa\n");
+	}
+}
+
+void	algos_for_3_elems(t_push *push)
+{
+
+}
+
+void	choose_algos(t_push *push)
+{
+	int	kol_vo;
+
+	kol_vo = kol_vo_elementov_v_stacke(push->start_a);
+	if (!push->start_a || kol_vo == 1)
+		return ;
+	else if (kol_vo == 2)
+		algos_for_2_elems(push);
+	else if (kol_vo == 3)
+		algos_for_3_elems(push);
+	else
+		algos2(push);
+}
+
 /*
 **
 **
@@ -88,7 +119,7 @@ int		is_push_sorted(t_push *push)
 	while (tmp->next)
 	{
 		if (tmp->n > tmp->next->n)
-			return (1);
+			return (0);
 		tmp = tmp->next;
 	}
 	return (1);
@@ -143,7 +174,7 @@ int		main(int argc, char **argv)
 	}
 	check_for_duplicates(push);
 	make_norm_stack(push);
-	algos2(push);
+	choose_algos(push);
 	free_push(push);
 	// krasivo_vivod_check(push);
 	return (0);
