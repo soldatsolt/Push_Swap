@@ -43,6 +43,72 @@ void	pa_n_times(t_push *push, int n)
 	}
 }
 
+void	p_sa(t_push *push)
+{
+	sa(push);
+	ft_putstr("sa\n");
+}
+
+void	p_sb(t_push *push)
+{
+	sb(push);
+	ft_putstr("sb\n");
+}
+
+void	p_ss(t_push *push)
+{
+	ss(push);
+	ft_putstr("ss\n");
+}
+
+void	p_pa(t_push *push)
+{
+	pa(push);
+	ft_putstr("pa\n");
+}
+
+void	p_pb(t_push *push)
+{
+	pb(push);
+	ft_putstr("pb\n");
+}
+
+void	p_ra(t_push *push)
+{
+	ra(push);
+	ft_putstr("ra\n");
+}
+
+void	p_rb(t_push *push)
+{
+	rb(push);
+	ft_putstr("rb\n");
+}
+
+void	p_rr(t_push *push)
+{
+	rr(push);
+	ft_putstr("rr\n");
+}
+
+void	p_rra(t_push *push)
+{
+	rra(push);
+	ft_putstr("rra\n");
+}
+
+void	p_rrb(t_push *push)
+{
+	rrb(push);
+	ft_putstr("rrb\n");
+}
+
+void	p_rrr(t_push *push)
+{
+	rrr(push);
+	ft_putstr("rrr\n");
+}
+
 void	algos2(t_push *push)
 {
 	t_stack	*tmp;
@@ -80,9 +146,50 @@ void	algos_for_2_elems(t_push *push)
 	}
 }
 
+int		define_case_only_for_3_in_stack(t_stack *a)
+{
+	int	n1;
+	int	n2;
+	int	n3;
+
+	n1 = a->n;
+	n2 = a->next->n;
+	n3 = a->next->next->n;
+	if (n1 < n3 && n1 > n2)
+		return (1);
+	else if (n1 > n2 && n1 > n3 && n2 > n3)
+		return (2);
+	else if (n1 > n2 && n1 > n3 && n2 < n3)
+		return (3);
+	else if (n1 < n2 && n1 < n3 && n3 < n2)
+		return (4);
+	else if (n1 < n2 && n1 > n3)
+		return (5);
+	return (0);
+}
+
 void	algos_for_3_elems(t_push *push)
 {
+	int		c;
 
+	c = define_case_only_for_3_in_stack(push->start_a);
+	if (c == 1)
+		p_sa(push);
+	else if (c == 2)
+	{
+		p_sa(push);
+		p_rra(push);
+	}
+	else if (c == 3)
+		p_ra(push);
+	else if (c == 4)
+	{
+		p_sa(push);
+		p_ra(push);
+	}
+	else if (c == 5)
+		p_rra(push);
+	return ;
 }
 
 void	choose_algos(t_push *push)
@@ -90,7 +197,7 @@ void	choose_algos(t_push *push)
 	int	kol_vo;
 
 	kol_vo = kol_vo_elementov_v_stacke(push->start_a);
-	if (!push->start_a || kol_vo == 1)
+	if (!push->start_a || kol_vo == 1 || is_push_sorted(push))
 		return ;
 	else if (kol_vo == 2)
 		algos_for_2_elems(push);
