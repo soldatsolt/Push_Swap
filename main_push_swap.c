@@ -192,6 +192,14 @@ void	algos_for_3_elems(t_push *push)
 	return ;
 }
 
+void	algos_for_5_elems(t_push *push)
+{
+	while (kol_vo_elementov_v_stacke(push->start_a) >= 3)
+		p_pb(push);
+	algos_for_3_elems(push);
+	
+}
+
 void	choose_algos(t_push *push)
 {
 	int	kol_vo;
@@ -203,6 +211,8 @@ void	choose_algos(t_push *push)
 		algos_for_2_elems(push);
 	else if (kol_vo == 3)
 		algos_for_3_elems(push);
+	// else if (kol_vo <= 5) ТУТ ДОДЕЛАТЬ НОРМАЛЬНО
+	// 	algos_for_5_elems(push);
 	else
 		algos2(push);
 }
