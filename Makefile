@@ -30,7 +30,7 @@ re: fclean all
 rerun: re
 	@./$(NAME1)
 
-$(LIBFT):
+lib:
 	@$(MAKE) -C ./libft re
 	@$(MAKE) -C ./libft clean
 

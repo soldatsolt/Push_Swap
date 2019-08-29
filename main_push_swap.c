@@ -171,6 +171,7 @@ int		main(int argc, char **argv)
 	check_for_duplicates(push);
 	make_norm_stack(push);
 	algos2(push);
+	free_push(push);
 	// krasivo_vivod_check(push);
 	return (0);
 }

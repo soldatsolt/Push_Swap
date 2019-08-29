@@ -17,13 +17,13 @@ int		main(int argc, char **argv)
 		}
 	}
 	check_for_duplicates(push);
-	while (get_next_line(0, &str) > 0)
-	{
-		checker_stdin(push, str);
-		free(str);
-		str = NULL;
-	}
-	// checker_stdin(push, ft_strdup("ss"));
+	if (argc >= 2)
+		while (get_next_line(0, &str) > 0)
+		{
+			checker_stdin(push, str);
+			free(str);
+			str = NULL;
+		}
 	checker(push);
 	free_push(push);
 	return (0);

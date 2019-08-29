@@ -189,10 +189,13 @@ void	start_atoi_for_checker(t_push *push, char *str)
 
 	i = 0;
 	all_str = ft_strsplit(str, ' ');
-	while (all_str[i])
+	if (all_str)
 	{
-		put_n_to_a(push, ft_atoi_for_checker(all_str, push, all_str[i]));
-		i++;
+		while (all_str[i])
+		{
+			put_n_to_a(push, ft_atoi_for_checker(all_str, push, all_str[i]));
+			i++;
+		}
+		free_all_str(all_str);
 	}
-	free_all_str(all_str);
 }
