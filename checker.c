@@ -86,11 +86,6 @@ void	checker(t_push *push)
 {
 	t_stack	*tmp;
 
-	if (!push->start_a && !push->start_b)
-	{
-		free_push(push);
-		exit(0);
-	}
 	if (push->start_a && !push->start_b)
 		tmp = push->start_a;
 	else
@@ -112,6 +107,11 @@ void	check_for_duplicates(t_push *push)
 	t_stack	*tmp;
 	t_stack	*tmp1;
 
+	if (!push->start_a && !push->start_b)
+	{
+		free_push(push);
+		exit(0);
+	}
 	if (push->start_a)
 		tmp = push->start_a;
 	else

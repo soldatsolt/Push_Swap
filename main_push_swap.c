@@ -43,45 +43,6 @@ void	pa_n_times(t_push *push, int n)
 	}
 }
 
-void	algos1(t_push *push)
-{
-	t_stack	*tmp;
-	int		kol_vo_elementov;
-	int		i;
-
-	i = 0;
-	kol_vo_elementov = 0;
-	if (push->start_a)
-		tmp = push->start_a;
-	else
-		return ;	
-	while (tmp)
-	{
-		tmp = tmp->next;
-		kol_vo_elementov++;
-	}
-	tmp = push->start_a;
-	while (tmp && tmp->next)
-	{
-		if (push->start_a && push->start_a->next && push->start_a->n > push->start_a->next->n)
-		{
-			sa(push);
-			ft_putstr("sa\n");
-		}
-		while (tmp->next && tmp->n < tmp->next->n)
-		{
-			tmp = tmp->next;
-			i++;
-		}
-		if (tmp && tmp->next && (tmp->n > tmp->next->n))
-		{
-			pb_n_times(push, i);
-			i = 0;
-		}
-	}
-	pa_n_times(push, kol_vo_elementov_v_stacke(push->start_b));
-}
-
 void	algos2(t_push *push)
 {
 	t_stack	*tmp;
@@ -95,17 +56,10 @@ void	algos2(t_push *push)
 	else
 		return ;
 	max_element = kol_vo_elementov_v_stacke(push->start_a) - 1;
-	while (min_element < max_element)
+	while (min_element < max_element && !is_push_sorted(push))
 	{
 		while (push->start_a->n != min_element)
 		{
-			if (push->start_a->n - push->start_a->next->n == 1)
-			{
-				sa(push);
-				ft_putstr("sa\n"); // весь этот иф очень спорный
-				ra(push);
-				ft_putstr("ra\n");
-			}
 			ra(push);
 			ft_putstr("ra\n");
 		}
@@ -120,6 +74,25 @@ void	algos2(t_push *push)
 **
 **
 */
+
+int		is_push_sorted(t_push *push)
+{
+	t_stack	*tmp;
+
+	if (push->start_b)
+		return (0);
+	if (push->start_a)
+		tmp = push->start_a;
+	else
+		return (0);
+	while (tmp->next)
+	{
+		if (tmp->n > tmp->next->n)
+			return (1);
+		tmp = tmp->next;
+	}
+	return (1);
+}
 
 void	make_norm_stack(t_push *push)
 {

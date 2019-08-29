@@ -42,4 +42,6 @@ void				error_checker_stder(t_push *push, char *str);
 void				krasivo_vivod_check(t_push *push);
 void				start_atoi_for_checker(t_push *push, char *str);
 int					ft_atoi_for_checker(char **all_str, t_push *push, char *str);
+int					is_push_sorted(t_push *push);
+
 #endif
