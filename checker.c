@@ -88,6 +88,8 @@ void	checker(t_push *push)
 
 	if (push->start_a && !push->start_b)
 		tmp = push->start_a;
+	else if (push->start_b)
+		check_ko(push);
 	else
 		check_ok(push);
 	if (push->b || push->start_b)
