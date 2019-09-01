@@ -194,10 +194,12 @@ void	algos_for_3_elems(t_push *push)
 
 void	algos_for_5_elems(t_push *push)
 {
-	while (kol_vo_elementov_v_stacke(push->start_a) >= 3)
+	if (push->start_a->n > push->start_a->next->n)
+		p_sa(push);
+	while (kol_vo_elementov_v_stacke(push->start_a) > 3)
 		p_pb(push);
 	algos_for_3_elems(push);
-	
+	krasivo_vivod_check(push);
 }
 
 void	choose_algos(t_push *push)
@@ -211,8 +213,8 @@ void	choose_algos(t_push *push)
 		algos_for_2_elems(push);
 	else if (kol_vo == 3)
 		algos_for_3_elems(push);
-	// else if (kol_vo <= 5) ТУТ ДОДЕЛАТЬ НОРМАЛЬНО
-	// 	algos_for_5_elems(push);
+	else if (kol_vo <= 5)// ТУТ ДОДЕЛАТЬ НОРМАЛЬНО
+		algos_for_5_elems(push);
 	else
 		algos2(push);
 }

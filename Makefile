@@ -12,11 +12,12 @@ LIBFT = ./libft/libft.a
 all: $(NAME)
 
 $(NAME):
-	@gcc ./libft/libft.a $(SRCS1) -g -o $(NAME1)
-	@gcc ./libft/libft.a $(SRCS2) -g -o $(NAME2)
+	@gcc ./libft/libft.a $(SRCS1) -o $(NAME1)
+	@gcc ./libft/libft.a $(SRCS2) -o $(NAME2)
 
 g:
-	@gcc -g $(SRCS1) -o $(NAME1)
+	@gcc ./libft/libft.a $(SRCS1) -g -o $(NAME1)
+	@gcc ./libft/libft.a $(SRCS2) -g -o $(NAME2)
 
 clean:
 	@$(MAKE) -C ./libft clean
