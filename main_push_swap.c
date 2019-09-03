@@ -43,6 +43,32 @@ void	rrb_n_times(t_push *push, int n)
 	}
 }
 
+void	rr_n_times(t_push *push, int n)
+{
+	int	i;
+
+	i = 0;
+	while (i < n)
+	{
+		rr(push);
+		ft_putstr("rr\n");
+		i++;
+	}
+}
+
+void	rrr_n_times(t_push *push, int n)
+{
+	int	i;
+
+	i = 0;
+	while (i < n)
+	{
+		rrr(push);
+		ft_putstr("rrr\n");
+		i++;
+	}
+}
+
 void	rb_n_times(t_push *push, int n)
 {
 	int	i;
@@ -442,10 +468,45 @@ void	move_stack_b_to_top(t_push *push, t_stack *b)
 
 	rb = n_operations_to_up_b_by_rb(push, b);
 	rrb = n_operations_to_up_b_by_rrb(push, b);
-	if (rb < rrb) // как-то ещё проверять на неотрицательность))))
+	if (rb < rrb)
 		rb_n_times(push, rb);
 	else
 		rrb_n_times(push, rrb);	
+}
+
+void	move_stacks_a_b_to_top(t_push *push, t_stack *a, t_stack *b)
+{
+	int	ra;
+	int	rra;
+	int	rb;
+	int	rrb;
+
+	ra = n_operations_to_up_a_by_ra(push, a);
+	rra = n_operations_to_up_a_by_rra(push, a);
+	rb = n_operations_to_up_b_by_rb(push, b);
+	rrb = n_operations_to_up_b_by_rrb(push, b);
+	if (rb < rrb && ra < rra)
+		rr_n_times(push, (rb < ra) ? rb : ra);
+	else if (rb > rrb && ra > rra)
+		rrr_n_times(push, (rrb < rra) ? rrb : rra);
+	move_stack_a_to_top(push, a);
+	move_stack_b_to_top(push, b);
+}
+
+t_stack	*min_elem_of_stack(t_stack *stack)
+{
+	t_stack	*tmp;
+	t_stack	*min;
+
+	tmp = stack;
+	min = tmp;
+	while (tmp)
+	{
+		if (min->n > tmp->n)
+			min = tmp;
+		tmp = tmp->next;
+	}
+	return (min);
 }
 
 void	algos_for_5_elems(t_push *push)
@@ -484,8 +545,7 @@ void	algos_for_5_elems(t_push *push)
 		}
 		// krasivo_vivod_check(push);
 		// printf("ПУШИМ ЭЛЕМЕНТ В= %d  НАД А= %d \n", b_stack_to_move->n, a_stack_to_move->n);
-		move_stack_a_to_top(push, a_stack_to_move);
-		move_stack_b_to_top(push, b_stack_to_move);
+		move_stacks_a_b_to_top(push, a_stack_to_move, b_stack_to_move);
 		if (push->start_b)
 		{
 			p_pa(push);
@@ -493,12 +553,7 @@ void	algos_for_5_elems(t_push *push)
 		}
 		n = INT_MAX;
 	}
-	n = 0;
-	while (!is_push_sorted(push) && n < 1000)
-	{
-		p_ra(push);
-		n++;
-	}
+	move_stack_a_to_top(push, min_elem_of_stack(push->start_a));
 
 	// while (push->start_b)
 	// {
