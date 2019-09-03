@@ -473,6 +473,7 @@ void	algos_for_5_elems(t_push *push)
 			p_pa(push);
 			tmp_b = push->start_b;
 		}
+		n = INT_MAX;
 	}
 	// while (!is_push_sorted(push))
 	// {
