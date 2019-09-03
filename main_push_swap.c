@@ -308,32 +308,14 @@ t_stack	*find_that_b_stack(t_push *push, int n)
 
 
 
-int		number_operations_to_put_b_to_a(t_push *push, int n)
+int		number_operations_to_put_b_to_a(t_push *push, t_stack *a, t_stack *b)
 {
-	int		number;
-	t_stack	*tmp_b;
-	t_stack	*tmp_a;
-	int		min_a;
-	int		min_diffirence;
+	int	n;
 
-	number = 0;
-	min_a = INT_MAX;
-	tmp_a = push->start_a;
-	if (push->start_b)
-		tmp_b = find_that_b_stack(push, n);
-	else
-		return (0);
-	while (tmp_a && min_a > 1)
-	{
-		if ((tmp_b->n > tmp_a->n) && (tmp_b->n - tmp_a->n < min_a)) // нужно считать для подходящего места (В > А = min)
-		{
-			min_a = number;
-		}
-		tmp_a = tmp_a->next;
-		number++;
-	}
-	number += n;
-	return (number);
+	n = min_of_2(n_operations_to_up_a_by_ra(push, a), n_operations_to_up_a_by_rra(push, a));
+	n += min_of_2(n_operations_to_up_b_by_rb(push, b), n_operations_to_up_b_by_rrb(push, b));
+	n++;
+	return (n);
 }
 
 t_stack	*elem_n_of_stack(t_stack *stack, int n)
@@ -369,7 +351,7 @@ t_stack	*under_max_elem_a(t_push *push)
 		i++;
 		tmp = tmp->next;
 	}
-	return (elem_n_of_stack(push->start_a, n + 1)); // TODO: СДелать нормально, это просто заглушка
+	return (elem_n_of_stack(push->start_a, n));
 }
 
 t_stack	*stack_a_to_put_b_on_it(t_push *push, t_stack *b)
@@ -405,13 +387,14 @@ t_stack	*stack_a_to_put_b_on_it(t_push *push, t_stack *b)
 
 void	algos_for_5_elems(t_push *push)
 {
-	int	i;
-	int	min_number_op;
-	int	min_number_op_a;
-	t_stack	*a_to_push_b_on_it;
+	t_stack	*tmp_b;
+	t_stack	*tmp_a;
+	int		n;
 
-	i = 0;
-	min_number_op = INT_MAX;
+	n = INT_MAX;
+	tmp_a = push->start_a;
+	tmp_b = push->start_b;
+
 	// if (push->start_a->n > push->start_a->next->n)
 	// 	p_sa(push);
 	// while (kol_vo_elementov_v_stacke(push->start_a) > 3)
@@ -419,11 +402,21 @@ void	algos_for_5_elems(t_push *push)
 	// algos_for_3_elems(push);
 
 	// TODO: НУЖНО НАЙТИ, КОНКРЕТНО В КАКОЕ МЕСТО В А ВСТАВИТЬ ДАННЫЙ ЭЛЕМЕНТ СТЕКА В ВОЗВРАЩАТЬ ЭТФ Ф-Я БУДЕТ СТЕК А
-	p_rra(push);
-	p_pb(push);
-	p_sb(push);
-	a_to_push_b_on_it = stack_a_to_put_b_on_it(push, push->start_b);
-	printf("%d\n", a_to_push_b_on_it->n);
+	// UPD: НАШЁЛ
+
+	// while (tmp_b)
+	// {
+	// 	tmp_a = stack_a_to_put_b_on_it(push, tmp_b);
+	// 	if (number_operations_to_put_b_to_a(push, tmp_a, tmp_b) < n)    KRUTO
+	// 		n = number_operations_to_put_b_to_a(push, tmp_a, tmp_b);	KRUTO НЕ ЗАБЫТЬ, ЧТО ДЛЯ МИН ЗНАЧЕНИЯ В В СТЕКЕ
+																	//	НУЖНО ЧТОБЫ А БЫЛ ПОД ЭТИМ ЗНАЧЕНИЕМ
+																	//	А ТАК ЖЕ ПРИ ПЕРВОМ ЭЛЕМЕНТЕ А МАКСИМАЛЬНОМ
+																	//	В ЭЛЕМЕНТ ДОЛЖЕН ВСТАВАТЬ В САМЫЙ НИЗ
+	// 	tmp_b = tmp_b->next;
+	// }
+	
+
+
 	// while (push->start_b)
 	// {
 	// 	while (i < kol_vo_elementov_v_stacke(push->start_b))
