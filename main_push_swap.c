@@ -351,11 +351,64 @@ t_stack	*elem_n_of_stack(t_stack *stack, int n)
 	return (stack);
 }
 
+t_stack	*under_max_elem_a(t_push *push)
+{
+	t_stack	*tmp;
+	int		i;
+	int		n;
+	int		max_tmp;
+//TODO: ВРОДЕ РАБОТАЕТ ЧЕКНУТЬ ЕЩЁ
+	i = 0;
+	n = 0;
+	tmp = push->start_a;
+	max_tmp = tmp->n;
+	while (tmp)
+	{
+		if (tmp->n > max_tmp)
+			n = i;
+		i++;
+		tmp = tmp->next;
+	}
+	return (elem_n_of_stack(push->start_a, n + 1)); // TODO: СДелать нормально, это просто заглушка
+}
+
+t_stack	*stack_a_to_put_b_on_it(t_push *push, t_stack *b)
+{
+	t_stack	*a;
+	t_stack	*res_a;
+	int		nb;
+	int		na;
+
+	nb = b->n;
+	a = push->start_a;
+	res_a = NULL;
+	while (a)
+	{
+		na = a->n;
+		if (na < nb)
+			res_a = a;
+		a = a->next;
+	}
+	if (!res_a) // Вот это означает, что в стеке А нет элементов, которые были бы меньше конкретного элемента стека В, то есть
+	// этот элемент следует поставить под самый большой элемент стека А
+		return (under_max_elem_a(push));
+	a = push->start_a;
+	while (a)
+	{
+		na = a->n;
+		if (res_a->n < nb && res_a->n < na)
+			res_a = a;
+		a = a->next;
+	}
+	return (res_a);
+}
+
 void	algos_for_5_elems(t_push *push)
 {
 	int	i;
 	int	min_number_op;
 	int	min_number_op_a;
+	t_stack	*a_to_push_b_on_it;
 
 	i = 0;
 	min_number_op = INT_MAX;
@@ -365,8 +418,12 @@ void	algos_for_5_elems(t_push *push)
 	// 	p_pb(push);
 	// algos_for_3_elems(push);
 
-	// TODO: НУЖНО НАЙТИ, КОНКРЕТНО В КАКОЕ МЕСТО В А ВСТАВИТЬ ДАННЫЙ ЭЛЕМЕНТ СТЕКА В
-
+	// TODO: НУЖНО НАЙТИ, КОНКРЕТНО В КАКОЕ МЕСТО В А ВСТАВИТЬ ДАННЫЙ ЭЛЕМЕНТ СТЕКА В ВОЗВРАЩАТЬ ЭТФ Ф-Я БУДЕТ СТЕК А
+	p_rra(push);
+	p_pb(push);
+	p_sb(push);
+	a_to_push_b_on_it = stack_a_to_put_b_on_it(push, push->start_b);
+	printf("%d\n", a_to_push_b_on_it->n);
 	// while (push->start_b)
 	// {
 	// 	while (i < kol_vo_elementov_v_stacke(push->start_b))
