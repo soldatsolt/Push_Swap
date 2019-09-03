@@ -359,6 +359,13 @@ t_stack	*elem_n_of_stack(t_stack *stack, int n)
 	return (stack);
 }
 
+t_stack	*last_elem_of_stack(t_stack *stack)
+{
+	while (stack->next)
+		stack = stack->next;
+	return (stack);
+}
+
 t_stack	*on_min_elem_a(t_push *push)
 {
 	t_stack	*tmp;
@@ -417,18 +424,28 @@ t_stack	*stack_a_to_put_b_on_it(t_push *push, t_stack *b)
 
 void	move_stack_a_to_top(t_push *push, t_stack *a)
 {
-	if (n_operations_to_up_a_by_ra(push, a) < n_operations_to_up_a_by_rra(push, a))
-		ra_n_times(push, n_operations_to_up_a_by_ra(push, a));
+	int	ra;
+	int	rra;
+
+	ra = n_operations_to_up_a_by_ra(push, a);
+	rra = n_operations_to_up_a_by_rra(push, a);
+	if (ra < rra)
+		ra_n_times(push, ra);
 	else
-		rra_n_times(push, n_operations_to_up_a_by_rra(push, a));
+		rra_n_times(push, rra);
 }
 
 void	move_stack_b_to_top(t_push *push, t_stack *b)
 {
-	if (n_operations_to_up_b_by_rb(push, b) < n_operations_to_up_a_by_rra(push, b))
-		rb_n_times(push, n_operations_to_up_b_by_rb(push, b));
+	int	rb;
+	int	rrb;
+
+	rb = n_operations_to_up_b_by_rb(push, b);
+	rrb = n_operations_to_up_b_by_rrb(push, b);
+	if (rb < rrb) // как-то ещё проверять на неотрицательность))))
+		rb_n_times(push, rb);
 	else
-		rrb_n_times(push, n_operations_to_up_a_by_rra(push, b));	
+		rrb_n_times(push, rrb);	
 }
 
 void	algos_for_5_elems(t_push *push)
@@ -461,11 +478,12 @@ void	algos_for_5_elems(t_push *push)
 				b_stack_to_move = tmp_b;
 				a_stack_to_move = tmp_a;
 			}
-			krasivo_vivod_check(push);
-			printf("FOR %d ELEMENTS N OPERATIONS IS %d\n", tmp_b->n, number_operations_to_put_b_to_a(push, tmp_a, tmp_b));
+			// krasivo_vivod_check(push);
+			// printf("FOR %d ELEMENTS N OPERATIONS IS %d\n", tmp_b->n, number_operations_to_put_b_to_a(push, tmp_a, tmp_b));
 			tmp_b = tmp_b->next;
 		}
-		printf("ПУШИМ ЭЛЕМЕНТ В= %d  НАД А= %d \n", b_stack_to_move->n, a_stack_to_move->n);
+		// krasivo_vivod_check(push);
+		// printf("ПУШИМ ЭЛЕМЕНТ В= %d  НАД А= %d \n", b_stack_to_move->n, a_stack_to_move->n);
 		move_stack_a_to_top(push, a_stack_to_move);
 		move_stack_b_to_top(push, b_stack_to_move);
 		if (push->start_b)
@@ -475,10 +493,12 @@ void	algos_for_5_elems(t_push *push)
 		}
 		n = INT_MAX;
 	}
-	// while (!is_push_sorted(push))
-	// {
-	// 	p_ra(push);
-	// }
+	n = 0;
+	while (!is_push_sorted(push) && n < 1000)
+	{
+		p_ra(push);
+		n++;
+	}
 
 	// while (push->start_b)
 	// {
@@ -498,7 +518,7 @@ void	algos_for_5_elems(t_push *push)
 	// 	min_number_op = INT_MAX;
 	// }
 	// printf("elem %d\nrb %d\nrrb %d\n", elem_n_of_stack(push->start_b, 4)->n, n_operations_to_up_b_by_rb(push, elem_n_of_stack(push->start_b, 4)), n_operations_to_up_b_by_rrb(push, elem_n_of_stack(push->start_b, 4)));
-	krasivo_vivod_check(push);
+	// krasivo_vivod_check(push);
 }
 
 void	choose_algos(t_push *push)
