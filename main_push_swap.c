@@ -30,6 +30,32 @@ int		kol_vo_elementov_v_stacke(t_stack *stack)
 	return (n);
 }
 
+void	rb_n_times(t_push *push, int n)
+{
+	int	i;
+
+	i = 0;
+	while (i < n)
+	{
+		rb(push);
+		ft_putstr("rb\n");
+		i++;
+	}
+}
+
+void	ra_n_times(t_push *push, int n)
+{
+	int	i;
+
+	i = 0;
+	while (i < n)
+	{
+		ra(push);
+		ft_putstr("ra\n");
+		i++;
+	}
+}
+
 void	pa_n_times(t_push *push, int n)
 {
 	int	i;
@@ -107,6 +133,81 @@ void	p_rrr(t_push *push)
 {
 	rrr(push);
 	ft_putstr("rrr\n");
+}
+
+int		min_of_2(int a, int b)
+{
+	if (a == b)
+		return (a);
+	return ((a > b) ? b : a);
+}
+
+int		n_operations_to_up_b_by_rrb(t_push *push, t_stack *b)
+{
+	int		kolvo;
+	t_stack	*tmp;
+
+	tmp = push->start_b;
+	kolvo = 0;
+	while (tmp != b && tmp)
+	{
+		tmp = tmp->next;
+		kolvo++;
+	}
+	if (tmp == NULL)
+		return (-1);
+	return (kol_vo_elementov_v_stacke(push->start_b) - kolvo);
+}
+
+int		n_operations_to_up_b_by_rb(t_push *push, t_stack *b)
+{
+	int		kolvo;
+	t_stack	*tmp;
+
+	tmp = push->start_b;
+	kolvo = 0;
+	while (tmp != b && tmp)
+	{
+		tmp = tmp->next;
+		kolvo++;
+	}
+	if (tmp == NULL)
+		return (-1);
+	return (kolvo);
+}
+
+int		n_operations_to_up_a_by_rra(t_push *push, t_stack *a)
+{
+	int		kolvo;
+	t_stack	*tmp;
+
+	tmp = push->start_a;
+	kolvo = 0;
+	while (tmp != a && tmp)
+	{
+		tmp = tmp->next;
+		kolvo++;
+	}
+	if (tmp == NULL)
+		return (-1);
+	return (kol_vo_elementov_v_stacke(push->start_a) - kolvo);
+}
+
+int		n_operations_to_up_a_by_ra(t_push *push, t_stack *a)
+{
+	int		kolvo;
+	t_stack	*tmp;
+
+	tmp = push->start_a;
+	kolvo = 0;
+	while (tmp != a && tmp)
+	{
+		tmp = tmp->next;
+		kolvo++;
+	}
+	if (tmp == NULL)
+		return (-1);
+	return (kolvo);
 }
 
 void	algos2(t_push *push)
@@ -192,13 +293,98 @@ void	algos_for_3_elems(t_push *push)
 	return ;
 }
 
+t_stack	*find_that_b_stack(t_push *push, int n)
+{
+	t_stack	*tmp_b;
+
+	tmp_b = push->start_b;
+	while (tmp_b && n)
+	{
+		tmp_b = tmp_b->next;
+		n--;
+	}
+	return (tmp_b);
+}
+
+
+
+int		number_operations_to_put_b_to_a(t_push *push, int n)
+{
+	int		number;
+	t_stack	*tmp_b;
+	t_stack	*tmp_a;
+	int		min_a;
+	int		min_diffirence;
+
+	number = 0;
+	min_a = INT_MAX;
+	tmp_a = push->start_a;
+	if (push->start_b)
+		tmp_b = find_that_b_stack(push, n);
+	else
+		return (0);
+	while (tmp_a && min_a > 1)
+	{
+		if ((tmp_b->n > tmp_a->n) && (tmp_b->n - tmp_a->n < min_a)) // нужно считать для подходящего места (В > А = min)
+		{
+			min_a = number;
+		}
+		tmp_a = tmp_a->next;
+		number++;
+	}
+	number += n;
+	return (number);
+}
+
+t_stack	*elem_n_of_stack(t_stack *stack, int n)
+{
+	int	i;
+
+	i = 0;
+	if (!stack)
+		return (NULL);
+	while (i < n && stack)
+	{
+		stack = stack->next;
+		i++;
+	}
+	return (stack);
+}
+
 void	algos_for_5_elems(t_push *push)
 {
-	if (push->start_a->n > push->start_a->next->n)
-		p_sa(push);
-	while (kol_vo_elementov_v_stacke(push->start_a) > 3)
-		p_pb(push);
-	algos_for_3_elems(push);
+	int	i;
+	int	min_number_op;
+	int	min_number_op_a;
+
+	i = 0;
+	min_number_op = INT_MAX;
+	// if (push->start_a->n > push->start_a->next->n)
+	// 	p_sa(push);
+	// while (kol_vo_elementov_v_stacke(push->start_a) > 3)
+	// 	p_pb(push);
+	// algos_for_3_elems(push);
+
+	// TODO: НУЖНО НАЙТИ, КОНКРЕТНО В КАКОЕ МЕСТО В А ВСТАВИТЬ ДАННЫЙ ЭЛЕМЕНТ СТЕКА В
+
+	// while (push->start_b)
+	// {
+	// 	while (i < kol_vo_elementov_v_stacke(push->start_b))
+	// 	{
+	// 		if (min_number_op > number_operations_to_put_b_to_a(push, i))
+	// 		{
+	// 			min_number_op = i;
+	// 			min_number_op_a = number_operations_to_put_b_to_a(push, i);
+	// 		}
+	// 		i++;
+	// 	}
+	// 	ra_n_times(push, min_number_op);
+	// 	rb_n_times(push, min_number_op_a - min_number_op - 1);
+	// 	p_pa(push);
+	// 	i = 0;
+	// 	min_number_op = INT_MAX;
+	// }
+	// printf("elem %d\nrb %d\nrrb %d\n", elem_n_of_stack(push->start_b, 4)->n, n_operations_to_up_b_by_rb(push, elem_n_of_stack(push->start_b, 4)), n_operations_to_up_b_by_rrb(push, elem_n_of_stack(push->start_b, 4)));
 	krasivo_vivod_check(push);
 }
 
