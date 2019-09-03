@@ -30,6 +30,19 @@ int		kol_vo_elementov_v_stacke(t_stack *stack)
 	return (n);
 }
 
+void	rrb_n_times(t_push *push, int n)
+{
+	int	i;
+
+	i = 0;
+	while (i < n)
+	{
+		rrb(push);
+		ft_putstr("rrb\n");
+		i++;
+	}
+}
+
 void	rb_n_times(t_push *push, int n)
 {
 	int	i;
@@ -39,6 +52,19 @@ void	rb_n_times(t_push *push, int n)
 	{
 		rb(push);
 		ft_putstr("rb\n");
+		i++;
+	}
+}
+
+void	rra_n_times(t_push *push, int n)
+{
+	int	i;
+
+	i = 0;
+	while (i < n)
+	{
+		rra(push);
+		ft_putstr("rra\n");
 		i++;
 	}
 }
@@ -347,11 +373,15 @@ t_stack	*under_max_elem_a(t_push *push)
 	while (tmp)
 	{
 		if (tmp->n > max_tmp)
+		{
 			n = i;
+			max_tmp = tmp->n;
+		}
 		i++;
 		tmp = tmp->next;
 	}
-	return (elem_n_of_stack(push->start_a, n));
+	tmp = elem_n_of_stack(push->start_a, n + 1);
+	return (tmp ? tmp : push->start_a);
 }
 
 t_stack	*stack_a_to_put_b_on_it(t_push *push, t_stack *b)
@@ -385,36 +415,59 @@ t_stack	*stack_a_to_put_b_on_it(t_push *push, t_stack *b)
 	return (res_a);
 }
 
+void	move_stack_a_to_top(t_push *push, t_stack *a)
+{
+	if (n_operations_to_up_a_by_ra(push, a) < n_operations_to_up_a_by_rra(push, a))
+		ra_n_times(push, n_operations_to_up_a_by_ra(push, a));
+	else
+		rra_n_times(push, n_operations_to_up_a_by_rra(push, a));
+}
+
+void	move_stack_b_to_top(t_push *push, t_stack *b)
+{
+	if (n_operations_to_up_b_by_rb(push, b) < n_operations_to_up_a_by_rra(push, b))
+		rb_n_times(push, n_operations_to_up_b_by_rb(push, b));
+	else
+		rrb_n_times(push, n_operations_to_up_a_by_rra(push, b));	
+}
+
 void	algos_for_5_elems(t_push *push)
 {
 	t_stack	*tmp_b;
 	t_stack	*tmp_a;
+	t_stack	*b_stack_to_move;
 	int		n;
+	int i = 0;
 
 	n = INT_MAX;
-	tmp_a = push->start_a;
-	tmp_b = push->start_b;
 
 	// if (push->start_a->n > push->start_a->next->n)
 	// 	p_sa(push);
-	// while (kol_vo_elementov_v_stacke(push->start_a) > 3)
-	// 	p_pb(push);
+	while (kol_vo_elementov_v_stacke(push->start_a) > 3)
+		p_pb(push);
 	// algos_for_3_elems(push);
-
+	tmp_a = push->start_a;
+	tmp_b = push->start_b;
 	// TODO: НУЖНО НАЙТИ, КОНКРЕТНО В КАКОЕ МЕСТО В А ВСТАВИТЬ ДАННЫЙ ЭЛЕМЕНТ СТЕКА В ВОЗВРАЩАТЬ ЭТФ Ф-Я БУДЕТ СТЕК А
 	// UPD: НАШЁЛ
-
-	// while (tmp_b)
-	// {
-	// 	tmp_a = stack_a_to_put_b_on_it(push, tmp_b);
-	// 	if (number_operations_to_put_b_to_a(push, tmp_a, tmp_b) < n)    KRUTO
-	// 		n = number_operations_to_put_b_to_a(push, tmp_a, tmp_b);	KRUTO НЕ ЗАБЫТЬ, ЧТО ДЛЯ МИН ЗНАЧЕНИЯ В В СТЕКЕ
-																	//	НУЖНО ЧТОБЫ А БЫЛ ПОД ЭТИМ ЗНАЧЕНИЕМ
-																	//	А ТАК ЖЕ ПРИ ПЕРВОМ ЭЛЕМЕНТЕ А МАКСИМАЛЬНОМ
-																	//	В ЭЛЕМЕНТ ДОЛЖЕН ВСТАВАТЬ В САМЫЙ НИЗ
-	// 	tmp_b = tmp_b->next;
-	// }
-	
+	while (i++ < 20)
+	{
+		while (tmp_b)
+		{
+			tmp_a = stack_a_to_put_b_on_it(push, tmp_b);
+			if (number_operations_to_put_b_to_a(push, tmp_a, tmp_b) < n)    //KRUTO
+			{
+				n = number_operations_to_put_b_to_a(push, tmp_a, tmp_b);	//KRUTO НЕ ЗАБЫТЬ, ЧТО ДЛЯ МИН ЗНАЧЕНИЯ В В СТЕКЕ
+				b_stack_to_move = tmp_b;
+			}
+			printf("FOR %d ELEMENTS N OPERATIONS IS %d\n", tmp_b->n, number_operations_to_put_b_to_a(push, tmp_a, tmp_b));
+			tmp_b = tmp_b->next;
+		}
+		move_stack_a_to_top(push, tmp_a);
+		move_stack_b_to_top(push, b_stack_to_move);
+		if (push->start_b)
+			p_pa(push);
+	}
 
 
 	// while (push->start_b)
