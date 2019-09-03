@@ -359,28 +359,28 @@ t_stack	*elem_n_of_stack(t_stack *stack, int n)
 	return (stack);
 }
 
-t_stack	*under_max_elem_a(t_push *push)
+t_stack	*on_min_elem_a(t_push *push)
 {
 	t_stack	*tmp;
 	int		i;
 	int		n;
-	int		max_tmp;
+	int		min_tmp;
 //TODO: ВРОДЕ РАБОТАЕТ ЧЕКНУТЬ ЕЩЁ
 	i = 0;
 	n = 0;
 	tmp = push->start_a;
-	max_tmp = tmp->n;
+	min_tmp = tmp->n;
 	while (tmp)
 	{
-		if (tmp->n > max_tmp)
+		if (tmp->n < min_tmp)
 		{
 			n = i;
-			max_tmp = tmp->n;
+			min_tmp = tmp->n;
 		}
 		i++;
 		tmp = tmp->next;
 	}
-	tmp = elem_n_of_stack(push->start_a, n + 1);
+	tmp = elem_n_of_stack(push->start_a, n);
 	return (tmp ? tmp : push->start_a);
 }
 
@@ -397,18 +397,18 @@ t_stack	*stack_a_to_put_b_on_it(t_push *push, t_stack *b)
 	while (a)
 	{
 		na = a->n;
-		if (na < nb)
+		if (na > nb)
 			res_a = a;
 		a = a->next;
 	}
 	if (!res_a) // Вот это означает, что в стеке А нет элементов, которые были бы меньше конкретного элемента стека В, то есть
 	// этот элемент следует поставить под самый большой элемент стека А
-		return (under_max_elem_a(push));
+		return (on_min_elem_a(push));
 	a = push->start_a;
 	while (a)
 	{
 		na = a->n;
-		if (res_a->n < nb && res_a->n < na)
+		if (res_a->n > nb && res_a->n > na)
 			res_a = a;
 		a = a->next;
 	}
@@ -445,7 +445,7 @@ void	algos_for_5_elems(t_push *push)
 	// 	p_sa(push);
 	while (kol_vo_elementov_v_stacke(push->start_a) > 3)
 		p_pb(push);
-	// algos_for_3_elems(push);
+	algos_for_3_elems(push);
 	tmp_a = push->start_a;
 	tmp_b = push->start_b;
 	// TODO: НУЖНО НАЙТИ, КОНКРЕТНО В КАКОЕ МЕСТО В А ВСТАВИТЬ ДАННЫЙ ЭЛЕМЕНТ СТЕКА В ВОЗВРАЩАТЬ ЭТФ Ф-Я БУДЕТ СТЕК А
@@ -460,13 +460,17 @@ void	algos_for_5_elems(t_push *push)
 				n = number_operations_to_put_b_to_a(push, tmp_a, tmp_b);	//KRUTO НЕ ЗАБЫТЬ, ЧТО ДЛЯ МИН ЗНАЧЕНИЯ В В СТЕКЕ
 				b_stack_to_move = tmp_b;
 			}
+			krasivo_vivod_check(push);
 			printf("FOR %d ELEMENTS N OPERATIONS IS %d\n", tmp_b->n, number_operations_to_put_b_to_a(push, tmp_a, tmp_b));
 			tmp_b = tmp_b->next;
 		}
 		move_stack_a_to_top(push, tmp_a);
 		move_stack_b_to_top(push, b_stack_to_move);
 		if (push->start_b)
+		{
 			p_pa(push);
+			tmp_b = push->start_b;
+		}
 	}
 
 
