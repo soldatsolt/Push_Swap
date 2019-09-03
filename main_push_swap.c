@@ -408,7 +408,7 @@ t_stack	*stack_a_to_put_b_on_it(t_push *push, t_stack *b)
 	while (a)
 	{
 		na = a->n;
-		if (res_a->n > nb && res_a->n > na)
+		if (res_a->n > nb && res_a->n > na && na > nb)
 			res_a = a;
 		a = a->next;
 	}
@@ -436,8 +436,8 @@ void	algos_for_5_elems(t_push *push)
 	t_stack	*tmp_b;
 	t_stack	*tmp_a;
 	t_stack	*b_stack_to_move;
+	t_stack	*a_stack_to_move;
 	int		n;
-	int i = 0;
 
 	n = INT_MAX;
 
@@ -450,7 +450,7 @@ void	algos_for_5_elems(t_push *push)
 	tmp_b = push->start_b;
 	// TODO: НУЖНО НАЙТИ, КОНКРЕТНО В КАКОЕ МЕСТО В А ВСТАВИТЬ ДАННЫЙ ЭЛЕМЕНТ СТЕКА В ВОЗВРАЩАТЬ ЭТФ Ф-Я БУДЕТ СТЕК А
 	// UPD: НАШЁЛ
-	while (i++ < 20)
+	while (push->start_b)
 	{
 		while (tmp_b)
 		{
@@ -459,12 +459,14 @@ void	algos_for_5_elems(t_push *push)
 			{
 				n = number_operations_to_put_b_to_a(push, tmp_a, tmp_b);	//KRUTO НЕ ЗАБЫТЬ, ЧТО ДЛЯ МИН ЗНАЧЕНИЯ В В СТЕКЕ
 				b_stack_to_move = tmp_b;
+				a_stack_to_move = tmp_a;
 			}
 			krasivo_vivod_check(push);
 			printf("FOR %d ELEMENTS N OPERATIONS IS %d\n", tmp_b->n, number_operations_to_put_b_to_a(push, tmp_a, tmp_b));
 			tmp_b = tmp_b->next;
 		}
-		move_stack_a_to_top(push, tmp_a);
+		printf("ПУШИМ ЭЛЕМЕНТ В= %d  НАД А= %d \n", b_stack_to_move->n, a_stack_to_move->n);
+		move_stack_a_to_top(push, a_stack_to_move);
 		move_stack_b_to_top(push, b_stack_to_move);
 		if (push->start_b)
 		{
@@ -472,7 +474,10 @@ void	algos_for_5_elems(t_push *push)
 			tmp_b = push->start_b;
 		}
 	}
-
+	// while (!is_push_sorted(push))
+	// {
+	// 	p_ra(push);
+	// }
 
 	// while (push->start_b)
 	// {
@@ -506,10 +511,8 @@ void	choose_algos(t_push *push)
 		algos_for_2_elems(push);
 	else if (kol_vo == 3)
 		algos_for_3_elems(push);
-	else if (kol_vo <= 5)// ТУТ ДОДЕЛАТЬ НОРМАЛЬНО
+	else// ТУТ ДОДЕЛАТЬ НОРМАЛЬНО
 		algos_for_5_elems(push);
-	else
-		algos2(push);
 }
 
 /*
