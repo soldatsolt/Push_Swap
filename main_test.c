@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-int main()
+int	main(void)
 {
 	int		o;
 	char	*str;
@@ -20,5 +20,5 @@ int main()
 	}
 	close(o);
 	printf("MEAN IS %d\n", n / i);
-	return (0);	
+	return (0);
 }

@@ -358,14 +358,14 @@ t_stack	*find_that_b_stack(t_push *push, int n)
 	return (tmp_b);
 }
 
-
-
 int		number_operations_to_put_b_to_a(t_push *push, t_stack *a, t_stack *b)
 {
 	int	n;
 
-	n = min_of_2(n_operations_to_up_a_by_ra(push, a), n_operations_to_up_a_by_rra(push, a));
-	n += min_of_2(n_operations_to_up_b_by_rb(push, b), n_operations_to_up_b_by_rrb(push, b));
+	n = min_of_2(n_operations_to_up_a_by_ra(push, a), \
+	n_operations_to_up_a_by_rra(push, a));
+	n += min_of_2(n_operations_to_up_b_by_rb(push, b), \
+	n_operations_to_up_b_by_rrb(push, b));
 	n++;
 	return (n);
 }
@@ -398,7 +398,7 @@ t_stack	*on_min_elem_a(t_push *push)
 	int		i;
 	int		n;
 	int		min_tmp;
-//TODO: ВРОДЕ РАБОТАЕТ ЧЕКНУТЬ ЕЩЁ
+
 	i = 0;
 	n = 0;
 	tmp = push->start_a;
@@ -430,12 +430,10 @@ t_stack	*stack_a_to_put_b_on_it(t_push *push, t_stack *b)
 	while (a)
 	{
 		na = a->n;
-		if (na > nb)
-			res_a = a;
+		res_a = (na > nb) ? a : res_a;
 		a = a->next;
 	}
-	if (!res_a) // Вот это означает, что в стеке А нет элементов, которые были бы меньше конкретного элемента стека В, то есть
-	// этот элемент следует поставить под самый большой элемент стека А
+	if (!res_a)
 		return (on_min_elem_a(push));
 	a = push->start_a;
 	while (a)
@@ -471,7 +469,7 @@ void	move_stack_b_to_top(t_push *push, t_stack *b)
 	if (rb < rrb)
 		rb_n_times(push, rb);
 	else
-		rrb_n_times(push, rrb);	
+		rrb_n_times(push, rrb);
 }
 
 void	move_stacks_a_b_to_top(t_push *push, t_stack *a, t_stack *b)
@@ -509,71 +507,48 @@ t_stack	*min_elem_of_stack(t_stack *stack)
 	return (min);
 }
 
-void	algos_for_5_elems(t_push *push)
+void	choose_best_a_b_stacks_to_move(t_push *push, \
+t_stack **a_stack_to_move, t_stack **b_stack_to_move)
 {
 	t_stack	*tmp_b;
 	t_stack	*tmp_a;
+	int		n;
+
+	n = INT_MAX;
+	tmp_b = push->start_b;
+	while (tmp_b)
+	{
+		tmp_a = stack_a_to_put_b_on_it(push, tmp_b);
+		if (number_operations_to_put_b_to_a(push, tmp_a, tmp_b) < n)
+		{
+			n = number_operations_to_put_b_to_a(push, tmp_a, tmp_b);
+			*b_stack_to_move = tmp_b;
+			*a_stack_to_move = tmp_a;
+		}
+		tmp_b = tmp_b->next;
+	}
+}
+
+void	algos_for_more_elems(t_push *push)
+{
 	t_stack	*b_stack_to_move;
 	t_stack	*a_stack_to_move;
 	int		n;
 
 	n = INT_MAX;
-
-	// if (push->start_a->n > push->start_a->next->n)
-	// 	p_sa(push);
 	while (kol_vo_elementov_v_stacke(push->start_a) > 3)
 		p_pb(push);
 	algos_for_3_elems(push);
-	tmp_a = push->start_a;
-	tmp_b = push->start_b;
-	// TODO: НУЖНО НАЙТИ, КОНКРЕТНО В КАКОЕ МЕСТО В А ВСТАВИТЬ ДАННЫЙ ЭЛЕМЕНТ СТЕКА В ВОЗВРАЩАТЬ ЭТФ Ф-Я БУДЕТ СТЕК А
-	// UPD: НАШЁЛ
 	while (push->start_b)
 	{
-		while (tmp_b)
-		{
-			tmp_a = stack_a_to_put_b_on_it(push, tmp_b);
-			if (number_operations_to_put_b_to_a(push, tmp_a, tmp_b) < n)    //KRUTO
-			{
-				n = number_operations_to_put_b_to_a(push, tmp_a, tmp_b);	//KRUTO НЕ ЗАБЫТЬ, ЧТО ДЛЯ МИН ЗНАЧЕНИЯ В В СТЕКЕ
-				b_stack_to_move = tmp_b;
-				a_stack_to_move = tmp_a;
-			}
-			// krasivo_vivod_check(push);
-			// printf("FOR %d ELEMENTS N OPERATIONS IS %d\n", tmp_b->n, number_operations_to_put_b_to_a(push, tmp_a, tmp_b));
-			tmp_b = tmp_b->next;
-		}
-		// krasivo_vivod_check(push);
-		// printf("ПУШИМ ЭЛЕМЕНТ В= %d  НАД А= %d \n", b_stack_to_move->n, a_stack_to_move->n);
+		choose_best_a_b_stacks_to_move(push, \
+		&(a_stack_to_move), &(b_stack_to_move));
 		move_stacks_a_b_to_top(push, a_stack_to_move, b_stack_to_move);
 		if (push->start_b)
-		{
 			p_pa(push);
-			tmp_b = push->start_b;
-		}
 		n = INT_MAX;
 	}
 	move_stack_a_to_top(push, min_elem_of_stack(push->start_a));
-
-	// while (push->start_b)
-	// {
-	// 	while (i < kol_vo_elementov_v_stacke(push->start_b))
-	// 	{
-	// 		if (min_number_op > number_operations_to_put_b_to_a(push, i))
-	// 		{
-	// 			min_number_op = i;
-	// 			min_number_op_a = number_operations_to_put_b_to_a(push, i);
-	// 		}
-	// 		i++;
-	// 	}
-	// 	ra_n_times(push, min_number_op);
-	// 	rb_n_times(push, min_number_op_a - min_number_op - 1);
-	// 	p_pa(push);
-	// 	i = 0;
-	// 	min_number_op = INT_MAX;
-	// }
-	// printf("elem %d\nrb %d\nrrb %d\n", elem_n_of_stack(push->start_b, 4)->n, n_operations_to_up_b_by_rb(push, elem_n_of_stack(push->start_b, 4)), n_operations_to_up_b_by_rrb(push, elem_n_of_stack(push->start_b, 4)));
-	// krasivo_vivod_check(push);
 }
 
 void	choose_algos(t_push *push)
@@ -587,15 +562,9 @@ void	choose_algos(t_push *push)
 		algos_for_2_elems(push);
 	else if (kol_vo == 3)
 		algos_for_3_elems(push);
-	else// ТУТ ДОДЕЛАТЬ НОРМАЛЬНО
-		algos_for_5_elems(push);
+	else
+		algos_for_more_elems(push);
 }
-
-/*
-**
-**
-**
-*/
 
 int		is_push_sorted(t_push *push)
 {
@@ -625,10 +594,7 @@ void	make_norm_stack(t_push *push)
 
 	nomer = 0;
 	kol_vo_elementov_v_stacke_a = kol_vo_elementov_v_stacke(push->start_a);
-	if (push->start_a)
-		tmp = push->start_a;
-	else
-		return ;
+	tmp = push->start_a;
 	while (nomer < kol_vo_elementov_v_stacke_a)
 	{
 		tmp = push->start_a;
@@ -667,6 +633,5 @@ int		main(int argc, char **argv)
 	make_norm_stack(push);
 	choose_algos(push);
 	free_push(push);
-	// krasivo_vivod_check(push);
 	return (0);
 }
