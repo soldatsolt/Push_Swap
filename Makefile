@@ -6,7 +6,7 @@
 #    By: kmills <kmills@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/04 18:35:07 by kmills            #+#    #+#              #
-#    Updated: 2019/09/04 18:36:05 by kmills           ###   ########.fr        #
+#    Updated: 2019/09/04 18:51:55 by kmills           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,8 +26,8 @@ LIBFT = ./libft/libft.a
 all: $(NAME)
 
 $(NAME):
-	@gcc ./libft/libft.a $(SRCS1) -o $(NAME1)
-	@gcc ./libft/libft.a $(SRCS2) -o $(NAME2)
+	@gcc $(FLAGS) ./libft/libft.a $(SRCS1) -o $(NAME1)
+	@gcc $(FLAGS) ./libft/libft.a $(SRCS2) -o $(NAME2)
 
 g:
 	@gcc ./libft/libft.a $(SRCS1) -g -o $(NAME1)
@@ -42,9 +42,6 @@ fclean: clean
 	@rm -f $(NAME2)
 
 re: fclean all
-
-rerun: re
-	@./$(NAME1)
 
 lib:
 	@$(MAKE) -C ./libft re

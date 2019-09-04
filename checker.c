@@ -6,7 +6,7 @@
 /*   By: kmills <kmills@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/04 18:35:47 by kmills            #+#    #+#             */
-/*   Updated: 2019/09/04 18:36:14 by kmills           ###   ########.fr       */
+/*   Updated: 2019/09/04 18:49:04 by kmills           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	checker(t_push *push)
 {
 	t_stack	*tmp;
 
+	tmp = push->start_a;
 	if (push->start_a && !push->start_b)
 		tmp = push->start_a;
 	else if (push->start_b)
