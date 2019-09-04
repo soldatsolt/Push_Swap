@@ -1,8 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push_swap.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kmills <kmills@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/09/04 18:35:39 by kmills            #+#    #+#             */
+/*   Updated: 2019/09/04 18:43:13 by kmills           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 # include "./libft/libft.h"
 # define INT_MAX (2147483647)
 # define INT_MIN (-2147483648)
+
 typedef	struct		s_stack
 {
 	int				n;
@@ -34,17 +47,20 @@ void				rr(t_push *push);
 void				rra(t_push *push);
 void				rrb(t_push *push);
 void				rrr(t_push *push);
-void				print_stack(t_stack *stack);	
+void				print_stack(t_stack *stack);
 void				check_for_duplicates(t_push *push);
 void				checker(t_push *push);
 void				checker_stdin(t_push *push, char *str);
 void				error_checker_stder(t_push *push, char *str);
 void				krasivo_vivod_check(t_push *push);
-void				start_atoi_for_checker(t_push *push, char *str);
-int					ft_atoi_for_checker(char **all_str, t_push *push, char *str);
+void				start_atoi_for_checker(t_push *push, \
+char *str);
+int					ft_atoi_for_checker(char **all_str, t_push *push, \
+char *str);
 int					is_push_sorted(t_push *push);
 void				free_all_str(char **all_str);
-void				error_checker_stder1(char **all_str, t_push *push, char *str);
+void				error_checker_stder1(char **all_str, t_push *push, \
+char *str);
 void				pa_n_times(t_push *push, int n);
 void				pb_n_times(t_push *push, int n);
 void				rrb_n_times(t_push *push, int n);
@@ -70,13 +86,15 @@ int					kol_vo_elementov_v_stacke(t_stack *stack);
 void				choose_algos(t_push *push);
 void				algos_for_3_elems(t_push *push);
 void				algos_for_more_elems(t_push *push);
-void				move_stacks_a_b_to_top(t_push *push, t_stack *a, t_stack *b);
+void				move_stacks_a_b_to_top(t_push *push, t_stack *a, \
+t_stack *b);
 void				move_stack_b_to_top(t_push *push, t_stack *b);
 void				move_stack_a_to_top(t_push *push, t_stack *a);
-int					number_operations_to_put_b_to_a(t_push *push, t_stack *a, t_stack *b);
+int					number_operations_to_put_b_to_a(t_push *push, \
+t_stack *a, t_stack *b);
 int					min_of_2(int a, int b);
 void				choose_best_a_b_stacks_to_move(t_push *push, \
-t_stack 			**a_stack_to_move, t_stack **b_stack_to_move);
+t_stack				**a_stack_to_move, t_stack **b_stack_to_move);
 t_stack				*min_elem_of_stack(t_stack *stack);
 t_stack				*on_min_elem_a(t_push *push);
 t_stack				*elem_n_of_stack(t_stack *stack, int n);
