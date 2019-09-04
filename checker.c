@@ -11,8 +11,8 @@ void	free_all_str(char **all_str)
 	{
 		while (all_str[i][j])
 		{
-			all_str[i][j] = '\0'; // Очень костыльный метод избежать
-			j++;	// баг. 28.08.19 09:39
+			all_str[i][j] = '\0';
+			j++;
 		}
 		j = 0;
 		free(all_str[i]);
@@ -26,8 +26,9 @@ void	free_all_str(char **all_str)
 void	error_checker_stder(t_push *push, char *str)
 {
 	write(2, "Error\n", 6);
-	free_push(push); // ОШИБКА ЗАХОДИТ СЮДА
-	free(str);
+	free_push(push);
+	if (str)
+		free(str);
 	exit(0);
 }
 
@@ -65,7 +66,7 @@ void	checker_stdin(t_push *push, char *str)
 	else if (!ft_strcmp(str, "rrr"))
 		rrr(push);
 	else
-		error_checker_stder(push, str); // ОТСЮДА (ВВЕРХ СМОТРИ)
+		error_checker_stder(push, str);
 }
 
 void	check_ok(t_push *push)
@@ -100,7 +101,7 @@ void	checker(t_push *push)
 			check_ko(push);
 		tmp = tmp->next;
 	}
-	check_ok(push);	
+	check_ok(push);
 }
 
 void	check_for_duplicates(t_push *push)
@@ -117,7 +118,7 @@ void	check_for_duplicates(t_push *push)
 	if (push->start_a)
 		tmp = push->start_a;
 	else
-		return ;	
+		return ;
 	while (tmp->next)
 	{
 		n = tmp->n;
@@ -125,11 +126,7 @@ void	check_for_duplicates(t_push *push)
 		while (tmp1)
 		{
 			if (n == tmp1->n)
-			{
-				write(2, "Error\n", 6);
-				free_push(push);
-				exit(0);
-			}
+				error_checker_stder(push, NULL);
 			tmp1 = tmp1->next;
 		}
 		tmp = tmp->next;
