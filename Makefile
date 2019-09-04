@@ -4,8 +4,8 @@ NAME = $(NAME1) $(NAME2)
 MAKE = make
 override G += 
 FLAGS = -Wall -Wextra -Werror
-SRCS1 = main_checker.c stacks_operations.c operations.c checker.c
-SRCS2 = main_push_swap.c stacks_operations.c operations.c checker.c
+SRCS1 = main_checker.c stacks_operations.c rr_.c checker.c frees.c atoi_for_checker.c s_.c r_.c
+SRCS2 = main_push_swap.c stacks_operations.c rr_.c checker.c frees.c atoi_for_checker.c s_.c	r_.c
 OBJS1 = $(SRCS1:.c=.o)
 OBJS2 = $(SRCS2:.c=.o)
 LIBFT = ./libft/libft.a

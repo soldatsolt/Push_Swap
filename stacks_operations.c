@@ -1,19 +1,5 @@
 #include "push_swap.h"
 
-void	free_all_stack(t_stack *start)
-{
-	t_stack		*tmp;
-	t_stack		*store;
-
-	tmp = start;
-	while (tmp)
-	{
-		store = tmp->next;
-		free(tmp);
-		tmp = store;
-	}
-}
-
 t_stack	*create_stack(void)
 {
 	t_stack	*stack;
@@ -23,13 +9,6 @@ t_stack	*create_stack(void)
 	stack->n = 0;
 	stack->f = 0;
 	return (stack);
-}
-
-void	free_push(t_push *push)
-{
-	free_all_stack(push->start_a);
-	free_all_stack(push->start_b);
-	free(push);
 }
 
 void	put_n_to_a(t_push *push, int n)
