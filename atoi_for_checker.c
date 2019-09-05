@@ -6,7 +6,7 @@
 /*   By: kmills <kmills@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/04 18:35:46 by kmills            #+#    #+#             */
-/*   Updated: 2019/09/04 18:36:15 by kmills           ###   ########.fr       */
+/*   Updated: 2019/09/05 23:27:17 by kmills           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ int		ft_atoi_for_checker(char **all_str, t_push *push, char *str)
 		res = res * 10;
 		res = res + (int)(*str - '0');
 		str++;
+		if ((res * z) > INT_MAX || (res * z) < INT_MIN)
+			error_checker_stder1(all_str, push, ft_strdup(str));
 	}
-	if ((res * z) > INT_MAX || (res * z) < INT_MIN)
-		error_checker_stder1(all_str, push, ft_strdup(str));
 	return ((int)(res * z));
 }
 

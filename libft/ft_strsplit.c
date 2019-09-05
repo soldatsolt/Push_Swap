@@ -6,7 +6,7 @@
 /*   By: kmills <kmills@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/19 20:10:53 by kmills            #+#    #+#             */
-/*   Updated: 2019/08/27 23:56:30 by kmills           ###   ########.fr       */
+/*   Updated: 2019/09/05 22:30:16 by kmills           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	*spcs(char const *s, char c)
 		l--;
 	if (l <= 0)
 		l = 0;
-	if (!(str = ft_strnew((size_t)l)))
+	if (l == 0 || !(str = ft_strnew((size_t)l)))
 		return (NULL);
 	s = s + i;
 	i = -1;
